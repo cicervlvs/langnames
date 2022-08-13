@@ -1,0 +1,25 @@
+\NeedsTeXFormat{LaTeX2e}[]
+\ProvidesPackage{langsname}[2022-08-07] %actualitzar amb data de publicació
+
+\RequirePackage{xkeyval}
+
+% \define@key{id}{iso}{
+% }
+% \define@key{id}{family}{
+% }
+
+\define@key{names}{cat}{Catalan}
+\define@key{names}{spa}{Spanish}
+\define@key{fam}{cat}{Indo-European}
+
+% Proveir comanda per cada opció
+
+\newcommand{\liso}[1]{
+  \csname KV@names@#1\endcsname{} (ISO 639-3: #1)\unskip
+}
+
+\newcommand{\lfam}[1]{
+  \csname KV@names@#1\endcsname{} (\csname KV@fam@#1\endcsname{})\unskip
+}
+   
+\ProcessOptions \relax
