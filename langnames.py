@@ -63,7 +63,7 @@ langs = langs[["iso639P3code", "name_glot", "name_wals", "family_glot", "family_
 
 #get duplicate iso codes
 code_n = langs["iso639P3code"].value_counts()
-duplicate_codes = code_n[code_n > 1].reset_index(drop = True)
+duplicate_codes = code_n[code_n > 1].reset_index()
 
 #get duplicate codes the names of which have parentheses (dialect suspects)
 langs_with_pars = langs[langs.name_glot.str.contains(" \(", na = False) == True]
@@ -89,8 +89,7 @@ langs = langs.assign(name_len = (langs["name_glot"].str.len())) \
 #remove entries without iso codes
 langs = langs.dropna(subset = "iso639P3code").reset_index(drop = True)
 
-# fill na in glottolog names with wals names (and vice-versa?)
-
+# fill na in glottolog names with wals names (and vice-versa)
 langs.name_glot = langs.name_glot.fillna("noname_glot")
 langs.name_wals = langs.name_wals.fillna("noname_wals")
 
@@ -105,4 +104,21 @@ for glotname, walsname in zip(langs.name_glot, langs.name_wals):
     walsnnames_fixed.append(walsname)
 
 langs.name_glot = glotnames_fixed
+langs.name_wals = walsnnames_fixed
 
+#make the keys for the latex package
+with open("latex/langs_glot.tex", "w") as lang_keys_glot:
+    for name, code in zip(langs.name_glot, langs.iso639P3code):
+        lang_keys_glot.write(f"\\define@key{{names}}{{{code}}}{{{name}}}\n")
+
+with open("latex/langs_wals.tex", "w") as lang_keys_wals:
+    for name, code in zip(langs.name_wals, langs.iso639P3code):
+        lang_keys_wals.write(f"\\define@key{{names}}{{{code}}}{{{name}}}\n")
+
+with open("latex/fams_glot.tex", "w") as fam_keys_glot:
+    for fam, code in zip(langs.family_glot, langs.iso639P3code):
+        fam_keys_glot.write(f"\\define@key{{fams}}{{{code}}}{{{fam}}}\n")
+
+with open("latex/fams_wals.tex", "w") as fam_keys_wals:
+    for fam, code in zip(langs.family_wals, langs.iso639P3code):
+        fam_keys_wals.write(f"\\define@key{{fams}}{{{code}}}{{{fam}}}\n")

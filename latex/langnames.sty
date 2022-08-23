@@ -1,25 +1,27 @@
 \NeedsTeXFormat{LaTeX2e}[]
-\ProvidesPackage{langsname}[2022-08-07] %actualitzar amb data de publicació
+\ProvidesPackage{langnames}[2022-08-07] %actualitzar amb data de publicació
 
 \RequirePackage{xkeyval}
 
-% \define@key{id}{iso}{
-% }
-% \define@key{id}{family}{
-% }
+\DeclareOption{glottolog}{\input{langs_glot.tex}
+                          \input{fams_glot.tex}}
+\DeclareOption{wals}{\input{langs_wals.tex}
+                     \input{fams_wals.tex}}
 
-\define@key{names}{cat}{Catalan}
-\define@key{names}{spa}{Spanish}
 \define@key{fam}{cat}{Indo-European}
 
 % Proveir comanda per cada opció
 
-\newcommand{\liso}[1]{
+\newcommand{\lname}[1]{%
+  \csname KV@names@#1\endcsname\unskip
+}
+
+\newcommand{\liso}[1]{%
   \csname KV@names@#1\endcsname{} (ISO 639-3: #1)\unskip
 }
 
-\newcommand{\lfam}[1]{
-  \csname KV@names@#1\endcsname{} (\csname KV@fam@#1\endcsname{})\unskip
+\newcommand{\lfam}[1]{%
+  \csname KV@names@#1\endcsname{} (\csname KV@fams@#1\endcsname{})\unskip
 }
    
 \ProcessOptions \relax
