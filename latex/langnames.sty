@@ -5,12 +5,9 @@
 
 \DeclareOption{glottolog}{\input{langs_glot.tex}
                           \input{fams_glot.tex}}
+
 \DeclareOption{wals}{\input{langs_wals.tex}
                      \input{fams_wals.tex}}
-
-\define@key{fam}{cat}{Indo-European}
-
-% Proveir comanda per cada opció
 
 \newcommand{\lname}[1]{%
   \csname KV@names@#1\endcsname\unskip
@@ -24,4 +21,9 @@
   \csname KV@names@#1\endcsname{} (\csname KV@fams@#1\endcsname{})\unskip
 }
    
+\newcommand{\newlang}[3]{%
+  \define@key{names}{#1}{#2}
+  \define@key{fams}{#1}{#3}
+}
+
 \ProcessOptions \relax
