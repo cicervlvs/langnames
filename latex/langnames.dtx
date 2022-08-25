@@ -1,0 +1,147 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2022 by Alejandro García Matarredona
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+% \fi
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
+%<package>\ProvidesPackage{langnames}
+%<package> [2022/08/25 v1.0 langnames package for naming and classification of languages]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{langnames}
+\usepackage{expex}
+\gathertags
+\usepackage{xkeyval}
+\usepackage{hyperref}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+\DocInput{langnames.dtx}
+\end{document}
+%</driver>
+% \fi
+% \CheckSum{30}
+% \changes{v1.0}{2022/08/25}{Initial version}
+% \GetFileInfo{langnames.sty}
+% \DoNotIndex{\unskip}
+% \title{The \textsf{langnames} package\thanks{This document
+% corresponds to \textsf{langnames}~\fileversion,
+% dated~\filedate.}}
+% \author{Alejandro García Matarredona\\ \texttt{alejandrogarciaag41@gmail.com}}
+% \maketitle
+% \begin{abstract}
+% \noindent The \textsf{langnames} package provides a set of macros for formatting names of languages, as well as their identification (in the form of ISO 639-3 codes) and their classification (in the form of its top-level family). The datasets from \href{https://wals.info}{WALS} and \href{https://glottolog.org}{Glottolog} are included in the package. The package also allows users to rename and add new languages.
+% \end{abstract}
+% \section{Introduction}
+% The typing out of language names in academic papers, especially those in language typology or related fields where many names have to be typed many times, is often inconvenient and inconsistent. This package attempts to be a small help to writers, especially of large projects or of collaborative ones, to have a slightly easier time with names of languages. It does so by defining three main commands: |\lname|, |\liso|, and |\lfam|, which respectively print out the name, name and ISO 639-3 code, and name and family of the specified language. While the package comes with about 7500 pre-defined languages, with code, name, and family, the user may also define new ones through the |\newlang| command. The basic use of all four of these commands is explained below.
+% \section{Usage}
+% \subsection{Installation}
+% Download the package from wherever it was found to a place where \LaTeX may see it, typically in \$TEXMFHOME/tex/latex. \textsf{langnames} should automatically load the \textsf{xkeyval} package.
+% \subsection{Package options}
+% When calling |\usepackage{langnames}|, the user must specify one of three options: \textsf{glottolog}, \textsf{wals}, or \textsf{none}.
+% The first option, \textsf{glottolog}, selects the naming conventions from the \href{https://glottolog.org}{Glottolog} database. The second option, \textsf{wals}, predictably selects the naming conventions of the \href{https://wals.info}{WALS} database. The names and the genetic classification differ in some languages, so the user may choose what convention to follow.
+% During the preparation of the dataset, there were instances of languages which appeared in WALS but not in Glottolog, and vice-versa. In such cases, the missing information was added from the other database. For more details on how I built the dataset, one may consult the Python script made for it in the \href{https://github.com/cicervlvs/langnames}{Github repository}.
+% The third option, \textsf{none}, tells the package not to load either of the datasets, and instead start off from an empty canvas. If one specifies this option, one will have to fill in the details of each language with the macro |\newlang| (see explanation in Section 2.3 below).
+% \subsection{Macros}\label{sec:mac}
+% When referring to a language, the author may use one of three macros to print out different information about it. Languages are identified by their ISO 639-3 code.
+% \DescribeMacro{\lname}
+% The simplest macro is |\lname|, which prints out the name of the specified language according to the code provided. The basic syntax is thus|\newlang| \marg{ISO code}. This can be seen in example (\getfullref{lname}).\\
+% \ex<lname>
+% \textsf{My native language is} |\lname{cat}|.\\ \\
+% My native language is Catalan. \\
+% \xe
+% \DescribeMacro{\liso}
+% One may also use the |\liso| macro to print out both the name and the ISO 639-3 code of the language specified in the macro in parenthesis , again according to its ISO code(|\liso| \marg{ISO code}). Example (\getfullref{liso}) shows its behavior.\\
+% \ex<liso>
+% \textsf{I have recently taken up} |\liso{brg}|.\\ \\
+% I have recently taken up Baure (Arawakan). \\
+% \xe
+% \DescribeMacro{\lfam}
+% A third macro for use is the |\lfam| command, which prints the name of the language and its family in parenthesis. Once again, the language is identified by its ISO 639-3 code. Example (\getfullref{lfam}) shows how it works.\\
+% \ex<lfam>
+% \textsf{The tone system of} |\liso{ptk}| is fascinating.\\ \\
+% The tone system of Maleng (Austroasiatic) is fascinating. \\
+% \xe
+% \DescribeMacro{\newlang}
+% Finally, users may add their own languages (or change the code, name, or genetic affiliation of a language already in the dataset) via the use of the |\newlang| command, which takes the three arguments \marg{code}, \marg{name}, and \marg{family}. This command may be used in the preamble, before |\begin{document}|. Example (\getfullref{newlang}) shows its usage.\\
+% \ex<newlang>
+% |\newlang{boo}{Ameli}{Amelian}| \\
+% |\begin{document}|\\
+% \textsf{My new made up language is} |\lname{boo}|.\\
+% \textsf{My new made up language is} |\liso{boo}|.\\
+% \textsf{My new made up language is} |\lfam{boo}|.\\
+% |\end{document}|\\ \\
+% My new made up language is Ameli.\\
+% My new made up language is Ameli (ISO 639-3: boo).\\
+% My new made up language is Ameli (Amelian).\\
+% \xe
+% Be aware that setting a new language overwrites any other language with the same code, as the package only listens to the language that is defined last.
+% \StopEventually{\PrintIndex\PrintChanges}
+% \section{Implementation}
+% \subsection{Option setting}
+% Options are set for what dataset to use. \textsf{glottolog} use Glottolog data;  \textsf{wals} uses WALS data; \textsf{none} selects neither dataset and all languages are defined by the user. See \textsf{langnames.py} in the \href{https://github.com/cicervlvs/langnames}{Github repository} to see how I gathered and handled the data.
+% \begin{macro}{Options}
+%    \begin{macrocode}
+\DeclareOption{glottolog}{\input{langs_glot.tex}
+                          \input{fams_glot.tex}}
+\DeclareOption{wals}{\input{langs_wals.tex}
+                     \input{fams_wals.tex}}
+\DeclareOption{none}{}
+%    \end{macrocode}
+% Language codes, names and families are set with the |\define@key|\marg{family} \marg{key} \marg{value} macro from the \textsf{xkeyval} package(see the \textsf{langs\_.tex} and \textsf{fams\_.tex} files in the package folder). \marg{family} is either \textsf{names} or \textsf{fams}. Thus, each language has two key-value pairs that refer to it, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key.
+% \end{macro}
+% \subsection{Macro definitions}
+% \begin{macro}{lname}
+% The |\lname| macro takes the key specified in its mandatory argument to call its corresponding key value pair from the \textsf{names} family, and prints it. This is achieved through the use of the |\csname| and |\endcsname| macros. The |\unskip| macro is used in all the macro definitions to avoid the adding of an extra space after the macro has been printed.
+%    \begin{macrocode}
+\newcommand{\lname}[1]{%
+  \csname KV@names@#1\endcsname\unskip
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{liso}
+% The |\liso| macro takes, like |\lname|, the value from the \textsf{names} family from the argument input, and prints the name as well as the ISO 639-3 code (which is the argument verbatim) between parenthesis.
+%    \begin{macrocode}
+\newcommand{\liso}[1]{%
+  \csname KV@names@#1\endcsname{} (ISO 639-3: #1)\unskip
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{lfam}
+% The |\lfam| macro, like |\lname| and |\liso|, calls the key-value pair from the \textsf{names} family corresponding to the input of the mandatory argument, plus the key-value pair from the \textsf{fams} family which gives it the genetic affiliation, which is printed between parenthesis.
+%    \begin{macrocode}
+\newcommand{\lfam}[1]{%
+  \csname KV@names@#1\endcsname{} (\csname KV@fams@#1\endcsname{})\unskip
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{newlang}
+% The macro |\newlang| defines new keys for a language from the three mandatory arguments with the |\define@key| \marg{family} \marg{key} \marg{value} macro from \textsf{xkeyval}. The first argument of |\newlang| \marg{code} defines the code which serves as identifier (the ISO code in the case of pre-defined key-value pairs). The second argument \marg{name} defines the printed name of the language. The third argument \marg{family} defines the family to which the language belongs.
+%    \begin{macrocode}
+\newcommand{\newlang}[3]{%
+  \define@key{names}{#1}{#2}
+  \define@key{fams}{#1}{#3}
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{ProcessOptions}
+% This line of code simply tells the package to set the options specified above.
+%    \begin{macrocode}
+\ProcessOptions \relax
+%    \end{macrocode}
+% \end{macro}
+% \Finale
+\endinput
