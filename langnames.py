@@ -106,6 +106,15 @@ for glotname, walsname in zip(langs.name_glot, langs.name_wals):
 langs.name_glot = glotnames_fixed
 langs.name_wals = walsnnames_fixed
 
+# Fill nan in glottolog families with wals families
+glotfams_fixed = []
+for glotfam, walsfam in zip(langs.family_glot, langs.family_wals):
+    if pd.isna(glotfam):
+        glotfam = walsfam
+    glotfams_fixed.append(glotfam)
+
+langs.family_glot = glotfams_fixed
+
 #make the keys for the latex package
 with open("latex/langs_glot.tex", "w") as lang_keys_glot:
     for name, code in zip(langs.name_glot, langs.iso639P3code):
