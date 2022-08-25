@@ -6,7 +6,7 @@
 %%
 %% langnames.dtx  (with options: `package')
 %% This is a generated file.
-%% Copyright (C) 〈year 〉 by 〈your name〉
+%% Copyright (C) 2022 by Alejandro García Matarredona
 %% This file may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either
 %% version 1.3 of this license or (at your option) any later
@@ -17,6 +17,8 @@
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{langnames}
  [2022/08/25 v1.0 langnames package for naming and classification of languages]
+\usepackage{xkeyval}
+
 \DeclareOption{glottolog}{\input{langs_glot.tex}
                           \input{fams_glot.tex}}
 \DeclareOption{wals}{\input{langs_wals.tex}

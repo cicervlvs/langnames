@@ -25,6 +25,10 @@
 \gathertags
 \usepackage{xkeyval}
 \usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue,
+}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -33,7 +37,7 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{30}
+% \CheckSum{31}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \GetFileInfo{langnames.sty}
 % \DoNotIndex{\unskip}
@@ -91,6 +95,12 @@
 % Be aware that setting a new language overwrites any other language with the same code, as the package only listens to the language that is defined last.
 % \StopEventually{\PrintIndex\PrintChanges}
 % \section{Implementation}
+% \subsection{Dependencies}
+% The \textsf{langnames} package needs to load the \textsf{xkeyval} package for its key-value pair setting functionality.
+%    \begin{macrocode}
+\usepackage{xkeyval}
+%    \end{macrocode}
+
 % \subsection{Option setting}
 % Options are set for what dataset to use. \textsf{glottolog} use Glottolog data;  \textsf{wals} uses WALS data; \textsf{none} selects neither dataset and all languages are defined by the user. See \textsf{langnames.py} in the \href{https://github.com/cicervlvs/langnames}{Github repository} to see how I gathered and handled the data.
 % \begin{macro}{Options}
