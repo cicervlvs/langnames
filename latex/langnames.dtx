@@ -40,7 +40,9 @@
 % \CheckSum{31}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \GetFileInfo{langnames.sty}
-% \DoNotIndex{\unskip}
+% \DoNotIndex{\unskip
+              \csname
+              \endcsname}
 % \title{The \textsf{langnames} package\thanks{This document
 % corresponds to \textsf{langnames}~\fileversion,
 % dated~\filedate.}}
@@ -105,13 +107,13 @@
 % Options are set for what dataset to use. \textsf{glottolog} use Glottolog data;  \textsf{wals} uses WALS data; \textsf{none} selects neither dataset and all languages are defined by the user. See \textsf{langnames.py} in the \href{https://github.com/cicervlvs/langnames}{Github repository} to see how I gathered and handled the data.
 % \begin{macro}{Options}
 %    \begin{macrocode}
-\DeclareOption{glottolog}{\input{langs_glot.tex}
-                          \input{fams_glot.tex}}
-\DeclareOption{wals}{\input{langs_wals.tex}
-                     \input{fams_wals.tex}}
+\DeclareOption{glottolog}{\input{ln_langs_glot.tex}
+                          \input{ln_fams_glot.tex}}
+\DeclareOption{wals}{\input{ln_langs_wals.tex}
+                     \input{ln_fams_wals.tex}}
 \DeclareOption{none}{}
 %    \end{macrocode}
-% Language codes, names and families are set with the |\define@key|\marg{family} \marg{key} \marg{value} macro from the \textsf{xkeyval} package(see the \textsf{langs\_.tex} and \textsf{fams\_.tex} files in the package folder). \marg{family} is either \textsf{names} or \textsf{fams}. Thus, each language has two key-value pairs that refer to it, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key.
+% Language codes, names and families are set with the |\define@key|\marg{family} \marg{key} \marg{value} macro from the \textsf{xkeyval} package (see the \textsf{ln\_langs\_.tex} and \textsf{ln\_fams\_.tex} files in the package folder). \marg{family} is either \textsf{names} or \textsf{fams}. Thus, each language has two key-value pairs that refer to it, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key.
 % \end{macro}
 % \subsection{Macro definitions}
 % \begin{macro}{lname}
