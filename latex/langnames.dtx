@@ -35,7 +35,7 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{93}
+% \CheckSum{90}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \changes{v2.0}{2022/09/05}{Optimizing \& debugging the code}
 % \GetFileInfo{langnames.sty}
@@ -219,8 +219,7 @@
 %    \begin{macrocode}
 \newcommand*{\liso}[1]{%
   \csname langnames@name@\langnames@cs@prefix @#1\endcsname{}
-  (ISO 639-3:
-  \csname langnames@fams@\langnames@cs@prefix @#1\endcsname)\unskip
+  (ISO 639-3: #1)\unskip
 }
 %    \end{macrocode}
 % \end{macro}
