@@ -5,6 +5,8 @@ latex/testing/
 ## From github file
 
 ## Core latex/pdflatex auxiliary files:
+*.sty
+*.hd
 *.aux
 *.lof
 *.log
