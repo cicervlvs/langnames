@@ -37,7 +37,7 @@
 % \fi
 % \CheckSum{90}
 % \changes{v1.0}{2022/08/25}{Initial version}
-% \changes{v2.0}{2022/09/05}{Optimizing \& debugging the code}
+% \changes{v2.0}{2022/09/05}{Optimizing and debugging the code}
 % \GetFileInfo{langnames.sty}
 % \DoNotIndex{\AddToHook,\def,\ekvdefinekeys,\ekvoProcessLocalOptions,\else,\expandafter,\fi,\ifdefined,\csname,\newcommand,\input,\usepackage,\unskip,\PackageError,\space,\ssp,\MessageBreak,\langnames@cs@prefix,\endcsname}
 % \title{The \textsf{langnames} package\thanks{This document
@@ -50,10 +50,10 @@
 % \end{abstract}
 % \tableofcontents
 % \section{Introduction}
-% The typing out of language names in academic papers, especially those in language typology or related fields where many names have to be typed many times, is often inconvenient and inconsistent. This package attempts to be a small help to writers, especially of large projects or of collaborative ones, to have a slightly easier time with names of languages. It does so by defining three main commands: |\lname|, |\liso|, and |\lfam|, which respectively print out the name, name and ISO 639-3 code, and name and family of the specified language. While the package comes with about 7500 pre-defined languages, with code, name, and family, the user may also define new ones through the |\newlang| command. The basic use of all four of these commands is explained below.
+% The typing out of language names in academic papers, especially those in language typology or related fields where many names have to be typed many times, is often inconvenient and inconsistent. This package attempts to be a small help to writers, especially of large projects or of collaborative ones, to have a slightly easier time with names of languages. It does so by defining three main commands: |\lname|, |\liso|, and |\lfam|, which respectively print out the name, name and ISO 639-3 code, and name and family of the specified language. While the package comes with about 7500 pre-defined languages, with code, name, and family, the user may also define new ones through the |\newlang| and |\renewlang| commands. The basic use of all five of these commands is explained below.
 % \section{Usage}
 % \subsection{Installation}
-% Download the package from wherever it was found to a place where \LaTeX\ may see it, typically in \texttt{\$TEXMFHOME/tex/latex}. \pkg{langnames} should automatically load the \pkg{expkv-opt,expkv-def} packages.
+% Download the package from wherever it was found to a place where \LaTeX\ may see it, typically in \texttt{\$TEXMFHOME/tex/latex}. \pkg{langnames} should automatically load the \pkg{expkv-opt} and \pkg{expkv-def} packages.
 % \subsection{Package options}
 % When calling |\usepackage{langnames}|, the user must specify one of three options: |glottolog|, |wals|, or |none|.
 % The first option, \textsf{glottolog}, selects the naming conventions from the \href{https://glottolog.org}{Glottolog} database. The second option, \textsf{wals}, predictably selects the naming conventions of the \href{https://wals.info}{WALS} database. The names and the genetic classification differ in some languages, so the user may choose what convention to follow.
@@ -76,7 +76,7 @@
 %   \begin{syntax}
 %     \cs{liso}\marg{ISO code}
 %   \end{syntax}
-%   One may also use the |\liso| macro to print out both the name and the ISO 639-3 code of the language specified in the macro in parenthesis, again according to its ISO code (\cs{liso}\marg{ISO code}). Example (\nextx) shows its behavior.
+%   The |\liso| macro prints out both the name and the ISO 639-3 code of the language specified in the argument (\cs{liso}\marg{ISO code}). Example (\nextx) shows its behavior.
 %   \ex
 %   |I have recently taken up \liso{brg}.|\par\noindent
 %   I have recently taken up \liso{brg}.
@@ -86,17 +86,17 @@
 %   \begin{syntax}
 %     \cs{lfam}\marg{ISO code}
 %   \end{syntax}
-%   A third macro for use is the |\lfam| command, which prints the name of the language and its family in parenthesis. Once again, the language is identified by its ISO 639-3 code. Example (\nextx) shows how it works.
+%   The |\lfam| command prints the name of the language and its family in parenthesis. Once again, the language is identified by its ISO 639-3 code. Example (\nextx) shows how it works.
 %   \ex
-%   |The tone system of \liso{plt} is fascinating.|\par\noindent
-%   The tone system of \liso{plt} is fascinating.
+%   |The tone system of \liso{pkt} is fascinating.|\par\noindent
+%   The tone system of \liso{pkt} is fascinating.
 %   \xe
 % \end{function}
 % \begin{function}{\newlang}
 %   \begin{syntax}
 %     \cs{newlang}\marg{pseudo code}\marg{name}\marg{family}
 %   \end{syntax}
-%   Finally, users may add their own languages via the use of the |\newlang| command, which takes three arguments as shown above. Example (\nextx) shows its usage.
+%   Finally, users may add their own languages via the use of the |\newlang| and |\renewlang| commands. |\newlang| takes three arguments as shown above. Example (\nextx) shows its usage.
 %   \ex\par\noindent
 %   
 %   \vspace*{-0.8\baselineskip}
@@ -118,20 +118,18 @@
 %   My new made up language is \liso{boo}.\par\noindent
 %   My new made up language is \lfam{boo}.
 %   \xe
-%   Be aware that setting a new language overwrites any other language with the same code, as the package only listens to the language that is defined last.
-%   
-%   Note that adding new macros won't overwrite any from the two other datasets as all three of them have different prefixes. Also if you have not loaded the package with option |none|; any of your \cs{newlang}s won't work, because `\newlang`s are supposed to be used with your own dataset.
+%   Note that adding new macros with |\newlang| will not overwrite any from the two other datasets as all three of them have different prefixes. Therefore, if the package was loaded with any option but |none|, none of the \cs{newlang}s defined will work, because `\newlang`s are meant to be used with one's own dataset.
 % \end{function}
 % \begin{function}{\renewlang}
 %   \begin{syntax}
 %     \cs{renewlang}\marg{dataset}\marg{code/pseudo code}\marg{name}\marg{family}
 %   \end{syntax}
-%   Unlike \cs{newlang}; this command will actually renew a definition from a particular \meta{dataset}. This therefore has an extra argument than the former, i.e., the first argument \meta{dataset}.
+%   Unlike \cs{newlang}, this command actually renews a definition from the specified \meta{dataset}. This macro therefore has one more argument than |\newlang|, the first argument \meta{dataset}.
 % \end{function}
 % \subsubsection{Local changes}
-% We additionally have another set of macros to change the language dataset locally, i.e., if you pass the |wals| key while loading the package \& in one section you \emph{must} use the language name from the |glot| set, you can use the following commands without any arguments.
+% The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glot| set, the following commands may be used. These commands do not take any arguments.
 % \begin{function}{\changetoglottolog,\changetowals,\changetonone}
-%   As the names suggest, these will change your dataset for the current local group, i.e., the running environment, or the current pair of |{|, |}|, or a |\begingroup|, |\endgroup| pair, or finally a |\bgroup|, |\egroup| pair.
+%   As the names suggest, these will change your dataset for the current local group, i.e., the running environment, or the current pair of |{|, |}|, |\begingroup|, |\endgroup| pair, or |\bgroup|, |\egroup| pair.
 % \end{function}
 % \subsection{A miscellaneous example}
 % \emph{The following code}:
@@ -172,18 +170,18 @@
 % \section{Implementation}
 % Language codes, names and families are set with simple |\newcommand|s. These commands have a four part structure as follows:
 % \begin{description}
-% \item[Internalization:] As these commands are for internal use, they should be inaccessible to the users \& hence we use the |@| symbol in the command name. The command name starts with the package name, to make it more safe. So the first part of our macros look like |\langnames@|
-% \item[Name or family:] We have two different sets of names, namely language names \& language family names. Internally they are named |name| \& |fams| respectively. Thus combining with this part we get |\langnames@name| or |\langname@fams|.
-% \item[Prefix:] As we have three major modes, we need to define three prefixes in order to allow conditional selection. For this we have three prefixes, i.e., |none|, |wals| \& |glot|.
+% \item[Internalization:] As these commands are for internal use, they should be inaccessible to the users and hence the |@| symbol is used in the command name. The command name starts with the package name, in order to ensure safety. Thus, the first part of macros look like so: |\langnames@|
+% \item[Name or family:] The package presents two different sets of names, namely language names and language family names. Internally they are named |name| and |fams| respectively. Thus, combining the first part with this one one gets |\langnames@name| or |\langname@fams|.
+% \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glot|.
 % \end{description}
-% For more information see |ln_langs_*| and |ln_fams_*| files in the package folder. Thus, each language has two internal macros. One defining its name and the other one defining its family, both using the ISO 639-3 code as their key.
+% Thus, each language has two internal macros, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key. For more information see |ln_langs_*| and |ln_fams_*| files in the package folder.
 % \subsection{Dependencies}
-% The \pkg{langnames} package needs to load the \pkg{expkv-def,expkv-opt} packages for its key-value pair setting functionality.
+% The \pkg{langnames} package needs to load the \pkg{expkv-def} and \pkg{expkv-opt} packages for their key-value pair setting functionality.
 %    \begin{macrocode}
 \usepackage{expkv-opt,expkv-def}
 %    \end{macrocode}
 % \subsection{Option setting}
-% Options are set for what dataset to use. |glottolog| use Glottolog data; |wals| uses WALS data; |none| selects neither datasets and all languages are defined by the user. See |langnames/langnames.py| in the \href{https://github.com/cicervlvs/langnames}{Github repository} to see how I gathered and handled the data.
+% Options are set for what dataset to use. |glottolog| uses Glottolog data; |wals| uses WALS data; |none| selects neither datasets and all languages are defined by the user. See |langnames/langnames.py| in the \href{https://github.com/cicervlvs/langnames}{Github repository} to see how I gathered and handled the data.
 %    \begin{macrocode}
 \ekvdefinekeys{langnames}{%
   noval glottolog       =  {%
@@ -224,7 +222,7 @@
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\lfam}
-%   This macro, like |\lname| and |\liso|, calls the macro from the |names| set corresponding to the input of the mandatory argument, plus the macro from the |fams| set which gives it the genetic affiliation, which is printed between parenthesis.
+%   This macro, like |\lname| and |\liso|, calls the macro from the |names| set corresponding to the input of the mandatory argument, plus the macro from the |fams| set which gives it its genetic affiliation, which is printed between parenthesis.
 %    \begin{macrocode}
 \newcommand*{\lfam}[1]{%
   \csname langnames@name@\langnames@cs@prefix @#1\endcsname{}
@@ -251,7 +249,7 @@
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\changetonone,\changetowals,\changetoglottolog}
-%   With the following code we define these three additional macros to change the macro-set locally.
+%   With the following code these three additional macros are defined which change the macro-set locally.
 %    \begin{macrocode}
 \newcommand*{\changetonone}{%
   \def\langnames@cs@prefix{custom}%
@@ -264,7 +262,7 @@
 }
 %    \end{macrocode}
 % \end{macro}
-% This package demands the user to select one package option from the available ones compulsorily. The mechanism of the package might fail if a user doesn't pass any option. Hence we check whether it is passed or not just before the beginning of the document with the following code. If it isn't, we issue an error and default to the |none| set.
+% This package demands the user to select one package option from the available ones compulsorily. The mechanism of the package might fail if a user does not pass any option. Hence the package checks whether it is passed or not just before the beginning of the document with the following code. If no valid option is passed, an error is issued and the package defaults to the |none| set.
 %    \begin{macrocode}
 \def\ssp{\space\space\space\space\space\space}
 \AddToHook{begindocument/before}{%
