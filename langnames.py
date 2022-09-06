@@ -118,11 +118,11 @@ langs.family_glot = glotfams_fixed
 #make the keys for the latex package
 with open("latex/ln_langs_glot.tex", "w") as lang_keys_glot:
     for name, code in zip(langs.name_glot, langs.iso639P3code):
-        lang_keys_glot.write(f"\\def\\langnames@names@glot@{code}{{{name}}}\n")
+        lang_keys_glot.write(f"\\def\\langnames@name@glot@{code}{{{name}}}\n")
 
 with open("latex/ln_langs_wals.tex", "w") as lang_keys_wals:
     for name, code in zip(langs.name_wals, langs.iso639P3code):
-        lang_keys_wals.write(f"\\def\\langnames@names@wals@{code}{{{name}}}\n")
+        lang_keys_wals.write(f"\\def\\langnames@name@wals@{code}{{{name}}}\n")
 
 with open("latex/ln_fams_glot.tex", "w") as fam_keys_glot:
     for fam, code in zip(langs.family_glot, langs.iso639P3code):
