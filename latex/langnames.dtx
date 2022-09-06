@@ -35,7 +35,7 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{83}
+% \CheckSum{93}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \changes{v2.0}{2022/09/05}{Optimizing \& debugging the code}
 % \GetFileInfo{langnames.sty}
@@ -117,13 +117,56 @@
 %   My new made up language is \liso{boo}.\par\noindent
 %   My new made up language is \lfam{boo}.
 %   \xe
-% Be aware that setting a new language overwrites any other language with the same code, as the package only listens to the language that is defined last.
+%   Be aware that setting a new language overwrites any other language with the same code, as the package only listens to the language that is defined last.
+%   
+%   Note that adding new macros won't overwrite any from the two other datasets as all three of them have different prefixes. Also if you have not loaded the package with option |none|; any of your \cs{newlang}s won't work, because `\newlang`s are supposed to be used with your own dataset.
+% \end{function}
+% \begin{function}{\renewlang}
+%   \begin{syntax}
+%     \cs{renewlang}\marg{dataset}\marg{code/pseudo code}\marg{name}\marg{family}
+%   \end{syntax}
+%   Unlike \cs{newlang}; this command will actually renew a definition from a particular \meta{dataset}. This therefore has an extra argument than the former, i.e., the first argument \meta{dataset}.
 % \end{function}
 % \subsubsection{Local changes}
 % We additionally have another set of macros to change the language dataset locally, i.e., if you pass the |wals| key while loading the package \& in one section you \emph{must} use the language name from the |glot| set, you can use the following commands without any arguments.
 % \begin{function}{\changetoglottolog,\changetowals,\changetonone}
 %   As the names suggest, these will change your dataset for the current local group, i.e., the running environment, or the current pair of |{|, |}|, or a |\begingroup|, |\endgroup| pair, or finally a |\bgroup|, |\egroup| pair.
 % \end{function}
+% \subsection{A miscellaneous example}
+% \emph{The following code}:
+% \begin{verbatim}
+% \documentclass{article}
+% \usepackage[glottolog]{langnames}
+% 
+% \begin{document}
+% \noindent
+% My language is \lname{cat}.\par
+% {%
+%   \changetonone
+%   \newlang{cat}{Meow}{Meowian}%
+%   \noindent
+%   My language is \lname{cat}.\par
+% }\noindent
+% My language is \lname{cat}.\par
+% \renewlang{glot}{cat}{Meow}{Meowian}\noindent
+% My language is \lname{cat}.
+% \end{document}
+% \end{verbatim}
+% \smallskip
+% 
+% \noindent
+% \emph{Produces}:\par\noindent
+% My language is \lname{cat}.\par
+% {%
+%   \changetonone
+%   \newlang{cat}{Meow}{Meowian}%
+%   \noindent
+%   My language is \lname{cat}.\par
+% }\noindent
+% My language is \lname{cat}.\par
+% \renewlang{glot}{cat}{Meow}{Meowian}\noindent
+% My language is \lname{cat}.
+% 
 % \StopEventually{\PrintIndex\PrintChanges}
 % \section{Implementation}
 % Language codes, names and families are set with simple |\newcommand|s. These commands have a four part structure as follows:
@@ -198,6 +241,15 @@
 }
 %    \end{macrocode}
 % \end{macro}
+% \begin{macro}{\renewlang}
+%   The following code is used to develop the \cs{renewlang} command.
+%    \begin{macrocode}
+\newcommand*{\renewlang}[4]{%
+  \expandafter\def\csname langnames@name@#1@#2\endcsname{#3}%
+  \expandafter\def\csname langnames@fams@#1@#2\endcsname{#4}%
+}
+%    \end{macrocode}
+% \end{macro}
 % \begin{macro}{\changetonone,\changetowals,\changetoglottolog}
 %   With the following code we define these three additional macros to change the macro-set locally.
 %    \begin{macrocode}
@@ -212,7 +264,6 @@
 }
 %    \end{macrocode}
 % \end{macro}
-% 
 % This package demands the user to select one package option from the available ones compulsorily. The mechanism of the package might fail if a user doesn't pass any option. Hence we check whether it is passed or not just before the beginning of the document with the following code. If it isn't, we issue an error and default to the |none| set.
 %    \begin{macrocode}
 \def\ssp{\space\space\space\space\space\space}
