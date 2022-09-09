@@ -35,11 +35,11 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{90}
+% \CheckSum{87}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \changes{v2.0}{2022/09/05}{Optimizing and debugging the code}
 % \GetFileInfo{langnames.sty}
-% \DoNotIndex{\AddToHook,\def,\ekvdefinekeys,\ekvoProcessLocalOptions,\else,\expandafter,\fi,\ifdefined,\csname,\newcommand,\input,\usepackage,\unskip,\PackageError,\space,\ssp,\MessageBreak,\langnames@cs@prefix,\endcsname}
+% \DoNotIndex{\AddToHook,\def,\ekvdefinekeys,\ekvoProcessLocalOptions,\else,\expandafter,\fi,\ifdefined,\csname,\newcommand,\input,\usepackage,\PackageError,\space,\ssp,\MessageBreak,\langnames@cs@prefix,\endcsname}
 % \title{The \textsf{langnames} package\thanks{This document
 % corresponds to \textsf{langnames}~\fileversion,
 % dated~\filedate.}}
@@ -205,10 +205,10 @@
 %    \end{macrocode}
 % \subsection{Macro definitions}
 % \begin{macro}{\lname}
-% This macro takes the value specified in its mandatory argument to call its corresponding macro from the |names| set, and prints it. This is achieved through the use of the |\csname| and |\endcsname| macros. The |\unskip| macro is used in all the macro definitions to avoid the adding of an extra space after the macro has been printed.
+% This macro takes the value specified in its mandatory argument to call its corresponding macro from the |names| set, and prints it. This is achieved through the use of the |\csname| and |\endcsname| macros.
 %    \begin{macrocode}
 \newcommand*{\lname}[1]{%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname\unskip
+  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname
 }
 %    \end{macrocode}
 % \end{macro}
@@ -216,8 +216,10 @@
 %   This macro takes, like |\lname|, the value from the |names| set from the argument input, and prints the name as well as the ISO 639-3 code (which is the argument verbatim) between parenthesis.
 %    \begin{macrocode}
 \newcommand*{\liso}[1]{%
+  {%
   \csname langnames@langs@\langnames@cs@prefix @#1\endcsname{}
-  (ISO 639-3: #1)\unskip
+  (ISO 639-3: #1)
+  }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -225,8 +227,10 @@
 %   This macro, like |\lname| and |\liso|, calls the macro from the |names| set corresponding to the input of the mandatory argument, plus the macro from the |fams| set which gives it its genetic affiliation, which is printed between parenthesis.
 %    \begin{macrocode}
 \newcommand*{\lfam}[1]{%
+  {%
   \csname langnames@langs@\langnames@cs@prefix @#1\endcsname{}
-  (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)\unskip
+  (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)
+  }%
 }
 %    \end{macrocode}
 % \end{macro}
