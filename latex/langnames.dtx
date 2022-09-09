@@ -171,10 +171,10 @@
 % Language codes, names and families are set with simple |\newcommand|s. These commands have a four part structure as follows:
 % \begin{description}
 % \item[Internalization:] As these commands are for internal use, they should be inaccessible to the users and hence the |@| symbol is used in the command name. The command name starts with the package name, in order to ensure safety. Thus, the first part of macros look like so: |\langnames@|
-% \item[Name or family:] The package presents two different sets of names, namely language names and language family names. Internally they are named |name| and |fams| respectively. Thus, combining the first part with this one one gets |\langnames@names| or |\langname@fams|.
+% \item[Name or family:] The package presents two different sets of names, namely language names and language family names. Internally they are named |name| and |fams| respectively. Thus, combining the first part with this one one gets |\langnames@name| or |\langname@fams|.
 % \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glot|.
 % \end{description}
-% Thus, each language has two internal macros, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key. For more information see |ln_names_*| and |ln_fams_*| files in the package folder.
+% Thus, each language has two internal macros, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key. For more information see |ln_langs_*| and |ln_fams_*| files in the package folder.
 % \subsection{Dependencies}
 % The \pkg{langnames} package needs to load the \pkg{expkv-def} and \pkg{expkv-opt} packages for their key-value pair setting functionality.
 %    \begin{macrocode}
@@ -186,12 +186,12 @@
 \ekvdefinekeys{langnames}{%
   noval glottolog       =  {%
     \def\langnames@cs@prefix{glot}%
-    \input{ln_names_glot.tex}%
+    \input{ln_langs_glot.tex}%
     \input{ln_fams_glot.tex}%
   },%
   noval wals            =  {%
     \def\langnames@cs@prefix{wals}%
-    \input{ln_names_wals.tex}%
+    \input{ln_langs_wals.tex}%
     \input{ln_fams_wals.tex}%
   },%
   noval none            =  {%
@@ -208,7 +208,7 @@
 % This macro takes the value specified in its mandatory argument to call its corresponding macro from the |names| set, and prints it. This is achieved through the use of the |\csname| and |\endcsname| macros. The |\unskip| macro is used in all the macro definitions to avoid the adding of an extra space after the macro has been printed.
 %    \begin{macrocode}
 \newcommand*{\lname}[1]{%
-  \csname langnames@names@\langnames@cs@prefix @#1\endcsname\unskip
+  \csname langnames@name@\langnames@cs@prefix @#1\endcsname\unskip
 }
 %    \end{macrocode}
 % \end{macro}
@@ -216,7 +216,7 @@
 %   This macro takes, like |\lname|, the value from the |names| set from the argument input, and prints the name as well as the ISO 639-3 code (which is the argument verbatim) between parenthesis.
 %    \begin{macrocode}
 \newcommand*{\liso}[1]{%
-  \csname langnames@names@\langnames@cs@prefix @#1\endcsname{}
+  \csname langnames@name@\langnames@cs@prefix @#1\endcsname{}
   (ISO 639-3: #1)\unskip
 }
 %    \end{macrocode}
@@ -225,7 +225,7 @@
 %   This macro, like |\lname| and |\liso|, calls the macro from the |names| set corresponding to the input of the mandatory argument, plus the macro from the |fams| set which gives it its genetic affiliation, which is printed between parenthesis.
 %    \begin{macrocode}
 \newcommand*{\lfam}[1]{%
-  \csname langnames@names@\langnames@cs@prefix @#1\endcsname{}
+  \csname langnames@name@\langnames@cs@prefix @#1\endcsname{}
   (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)\unskip
 }
 %    \end{macrocode}
@@ -234,7 +234,7 @@
 %   This macro defines new macros for a language from three mandatory arguments. The first argument of |\newlang|\marg{code} defines the code which serves as identifier (the ISO code in the case of pre-defined key-value pairs). The second argument \marg{name} defines the printed name of the language. The third argument \marg{family} defines the family to which the language belongs.
 %    \begin{macrocode}
 \newcommand*{\newlang}[3]{%
-  \expandafter\def\csname langnames@names@custom@#1\endcsname{#2}%
+  \expandafter\def\csname langnames@name@custom@#1\endcsname{#2}%
   \expandafter\def\csname langnames@fams@custom@#1\endcsname{#3}%
 }
 %    \end{macrocode}
@@ -243,7 +243,7 @@
 %   The following code is used to develop the \cs{renewlang} command.
 %    \begin{macrocode}
 \newcommand*{\renewlang}[4]{%
-  \expandafter\def\csname langnames@names@#1@#2\endcsname{#3}%
+  \expandafter\def\csname langnames@name@#1@#2\endcsname{#3}%
   \expandafter\def\csname langnames@fams@#1@#2\endcsname{#4}%
 }
 %    \end{macrocode}
