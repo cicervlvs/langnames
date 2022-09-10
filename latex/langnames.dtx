@@ -88,8 +88,8 @@
 %   \end{syntax}
 %   The |\lfam| command prints the name of the language and its family in parenthesis. Once again, the language is identified by its ISO 639-3 code. Example (\nextx) shows how it works.
 %   \ex
-%   |The tone system of \liso{pkt} is fascinating.|\par\noindent
-%   The tone system of \liso{pkt} is fascinating.
+%   |The tone system of \lfam{pkt} is fascinating.|\par\noindent
+%   The tone system of \lfam{pkt} is fascinating.
 %   \xe
 % \end{function}
 % \begin{function}{\newlang}
@@ -97,10 +97,11 @@
 %     \cs{newlang}\marg{pseudo code}\marg{name}\marg{family}
 %   \end{syntax}
 %   Finally, users may add their own languages via the use of the |\newlang| and |\renewlang| commands. |\newlang| takes three arguments as shown above. Example (\nextx) shows its usage.
-%   \ex\par\noindent
-%   
+% 
+% \ex\par\noindent
+%
 %   \vspace*{-0.8\baselineskip}
-%   \begin{minipage}[h]{\linewidth}
+%   \begin{minipage}[h]{0.8\linewidth}
 % \begin{verbatim}
 % \newlang{boo}{Ameli}{Amelian}
 % \begin{document}
@@ -127,7 +128,7 @@
 %   Unlike \cs{newlang}, this command actually renews a definition from the specified \meta{dataset}. This macro therefore has one more argument than |\newlang|, the first argument \meta{dataset}.
 % \end{function}
 % \subsubsection{Local changes}
-% The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glot| set, the following commands may be used. These commands do not take any arguments.
+% The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glottolog| set, the following commands may be used. These commands do not take any arguments.
 % \begin{function}{\changetoglottolog,\changetowals,\changetonone}
 %   As the names suggest, these will change your dataset for the current local group, i.e., the running environment, or the current pair of |{|, |}|, |\begingroup|, |\endgroup| pair, or |\bgroup|, |\egroup| pair.
 % \end{function}
@@ -147,7 +148,7 @@
 %   My language is \lname{cat}.\par
 % }\noindent
 % My language is \lname{cat}.\par
-% \renewlang{glot}{cat}{Meow}{Meowian}\noindent
+% \renewlang{glottolog}{cat}{Meow}{Meowian}\noindent
 % My language is \lname{cat}.
 % \end{document}
 % \end{verbatim}
@@ -163,7 +164,7 @@
 %   My language is \lname{cat}.\par
 % }\noindent
 % My language is \lname{cat}.\par
-% \renewlang{glot}{cat}{Meow}{Meowian}\noindent
+% \renewlang{glottolog}{cat}{Meow}{Meowian}\noindent
 % My language is \lname{cat}.
 % 
 % \StopEventually{\PrintIndex\PrintChanges}
@@ -172,7 +173,7 @@
 % \begin{description}
 % \item[Internalization:] As these commands are for internal use, they should be inaccessible to the users and hence the |@| symbol is used in the command name. The command name starts with the package name, in order to ensure safety. Thus, the first part of macros look like so: |\langnames@|
 % \item[Name or family:] The package presents two different sets of names, namely language names and language family names. Internally they are named |name| and |fams| respectively. Thus, combining the first part with this one one gets |\langnames@langs| or |\langname@fams|.
-% \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glot|.
+% \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glottolog|.
 % \end{description}
 % Thus, each language has two internal macros, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key. For more information see |ln_langs_*| and |ln_fams_*| files in the package folder.
 % \subsection{Dependencies}
@@ -185,7 +186,7 @@
 %    \begin{macrocode}
 \ekvdefinekeys{langnames}{%
   noval glottolog       =  {%
-    \def\langnames@cs@prefix{glot}%
+    \def\langnames@cs@prefix{glottolog}%
     \input{ln_langs_glot.tex}%
     \input{ln_fams_glot.tex}%
   },%
@@ -195,7 +196,7 @@
     \input{ln_fams_wals.tex}%
   },%
   noval none            =  {%
-    \def\langnames@cs@prefix{custom}%
+    \def\langnames@cs@prefix{none}%
   }%
 }
 %    \end{macrocode}
@@ -208,7 +209,9 @@
 % This macro takes the value specified in its mandatory argument to call its corresponding macro from the |names| set, and prints it. This is achieved through the use of the |\csname| and |\endcsname| macros.
 %    \begin{macrocode}
 \newcommand*{\lname}[1]{%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname
+  {%
+    \csname langnames@langs@\langnames@cs@prefix @#1\endcsname
+  }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -217,8 +220,8 @@
 %    \begin{macrocode}
 \newcommand*{\liso}[1]{%
   {%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname{}
-  (ISO 639-3: #1)
+    {\csname langnames@langs@\langnames@cs@prefix @#1\endcsname}
+    (ISO 639-3: #1)%
   }%
 }
 %    \end{macrocode}
@@ -228,8 +231,8 @@
 %    \begin{macrocode}
 \newcommand*{\lfam}[1]{%
   {%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname{}
-  (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)
+    {\csname langnames@langs@\langnames@cs@prefix @#1\endcsname}
+    (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)%
   }%
 }
 %    \end{macrocode}
@@ -238,8 +241,8 @@
 %   This macro defines new macros for a language from three mandatory arguments. The first argument of |\newlang|\marg{code} defines the code which serves as identifier (the ISO code in the case of pre-defined key-value pairs). The second argument \marg{name} defines the printed name of the language. The third argument \marg{family} defines the family to which the language belongs.
 %    \begin{macrocode}
 \newcommand*{\newlang}[3]{%
-  \expandafter\def\csname langnames@langs@custom@#1\endcsname{#2}%
-  \expandafter\def\csname langnames@fams@custom@#1\endcsname{#3}%
+  \expandafter\def\csname langnames@langs@none@#1\endcsname{#2}%
+  \expandafter\def\csname langnames@fams@none@#1\endcsname{#3}%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -256,13 +259,13 @@
 %   With the following code these three additional macros are defined which change the macro-set locally.
 %    \begin{macrocode}
 \newcommand*{\changetonone}{%
-  \def\langnames@cs@prefix{custom}%
+  \def\langnames@cs@prefix{none}%
 }
 \newcommand*{\changetowals}{%
   \def\langnames@cs@prefix{wals}%
 }
 \newcommand*{\changetoglottolog}{%
-  \def\langnames@cs@prefix{glot}%
+  \def\langnames@cs@prefix{glottolog}%
 }
 %    \end{macrocode}
 % \end{macro}
