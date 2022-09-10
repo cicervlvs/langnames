@@ -98,7 +98,7 @@
 %   \end{syntax}
 %   Finally, users may add their own languages via the use of the |\newlang| and |\renewlang| commands. |\newlang| takes three arguments as shown above. Example (\nextx) shows its usage.
 %   \ex\par\noindent
-%   
+%
 %   \vspace*{-0.8\baselineskip}
 %   \begin{minipage}[h]{\linewidth}
 % \begin{verbatim}
@@ -208,7 +208,9 @@
 % This macro takes the value specified in its mandatory argument to call its corresponding macro from the |names| set, and prints it. This is achieved through the use of the |\csname| and |\endcsname| macros.
 %    \begin{macrocode}
 \newcommand*{\lname}[1]{%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname
+  {%
+    \csname langnames@langs@\langnames@cs@prefix @#1\endcsname
+  }%
 }
 %    \end{macrocode}
 % \end{macro}
@@ -217,8 +219,8 @@
 %    \begin{macrocode}
 \newcommand*{\liso}[1]{%
   {%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname{}
-  (ISO 639-3: #1)
+    {\csname langnames@langs@\langnames@cs@prefix @#1\endcsname}
+    (ISO 639-3: #1)%
   }%
 }
 %    \end{macrocode}
@@ -228,8 +230,8 @@
 %    \begin{macrocode}
 \newcommand*{\lfam}[1]{%
   {%
-  \csname langnames@langs@\langnames@cs@prefix @#1\endcsname{}
-  (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)
+    {\csname langnames@langs@\langnames@cs@prefix @#1\endcsname}
+    (\csname langnames@fams@\langnames@cs@prefix @#1\endcsname)%
   }%
 }
 %    \end{macrocode}
