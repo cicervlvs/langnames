@@ -128,7 +128,7 @@
 %   Unlike \cs{newlang}, this command actually renews a definition from the specified \meta{dataset}. This macro therefore has one more argument than |\newlang|, the first argument \meta{dataset}.
 % \end{function}
 % \subsubsection{Local changes}
-% The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glot| set, the following commands may be used. These commands do not take any arguments.
+% The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glottolog| set, the following commands may be used. These commands do not take any arguments.
 % \begin{function}{\changetoglottolog,\changetowals,\changetonone}
 %   As the names suggest, these will change your dataset for the current local group, i.e., the running environment, or the current pair of |{|, |}|, |\begingroup|, |\endgroup| pair, or |\bgroup|, |\egroup| pair.
 % \end{function}
@@ -148,7 +148,7 @@
 %   My language is \lname{cat}.\par
 % }\noindent
 % My language is \lname{cat}.\par
-% \renewlang{glot}{cat}{Meow}{Meowian}\noindent
+% \renewlang{glottolog}{cat}{Meow}{Meowian}\noindent
 % My language is \lname{cat}.
 % \end{document}
 % \end{verbatim}
@@ -164,7 +164,7 @@
 %   My language is \lname{cat}.\par
 % }\noindent
 % My language is \lname{cat}.\par
-% \renewlang{glot}{cat}{Meow}{Meowian}\noindent
+% \renewlang{glottolog}{cat}{Meow}{Meowian}\noindent
 % My language is \lname{cat}.
 % 
 % \StopEventually{\PrintIndex\PrintChanges}
@@ -173,7 +173,7 @@
 % \begin{description}
 % \item[Internalization:] As these commands are for internal use, they should be inaccessible to the users and hence the |@| symbol is used in the command name. The command name starts with the package name, in order to ensure safety. Thus, the first part of macros look like so: |\langnames@|
 % \item[Name or family:] The package presents two different sets of names, namely language names and language family names. Internally they are named |name| and |fams| respectively. Thus, combining the first part with this one one gets |\langnames@langs| or |\langname@fams|.
-% \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glot|.
+% \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glottolog|.
 % \end{description}
 % Thus, each language has two internal macros, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key. For more information see |ln_langs_*| and |ln_fams_*| files in the package folder.
 % \subsection{Dependencies}
@@ -186,7 +186,7 @@
 %    \begin{macrocode}
 \ekvdefinekeys{langnames}{%
   noval glottolog       =  {%
-    \def\langnames@cs@prefix{glot}%
+    \def\langnames@cs@prefix{glottolog}%
     \input{ln_langs_glot.tex}%
     \input{ln_fams_glot.tex}%
   },%
@@ -265,7 +265,7 @@
   \def\langnames@cs@prefix{wals}%
 }
 \newcommand*{\changetoglottolog}{%
-  \def\langnames@cs@prefix{glot}%
+  \def\langnames@cs@prefix{glottolog}%
 }
 %    \end{macrocode}
 % \end{macro}
