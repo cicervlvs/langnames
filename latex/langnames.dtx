@@ -20,6 +20,8 @@
 %<*driver>
 \documentclass{l3doc}
 \usepackage[glottolog]{langnames}
+\usepackage{hologo}
+\DeclareRobustCommand\XeLaTeX{\hologo{XeLaTeX}}
 \usepackage{expex}
 \gathertags
 \usepackage{hyperref}
@@ -35,7 +37,7 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{87}
+% \CheckSum{100}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \changes{v2.0}{2022/09/05}{Optimizing and debugging the code}
 % \GetFileInfo{langnames.sty}
@@ -127,6 +129,36 @@
 %   \end{syntax}
 %   Unlike \cs{newlang}, this command actually renews a definition from the specified \meta{dataset}. This macro therefore has one more argument than |\newlang|, the first argument \meta{dataset}.
 % \end{function}
+% \begin{function}{\newlangnative}
+%   \begin{syntax}
+%     \cs{langnative}\marg{dataset}\marg{code}\marg{name}
+%   \end{syntax}
+% \end{function}
+% \begin{function}{\langnative}
+%   \begin{syntax}
+%     \cs{langnative}\marg{code}
+%   \end{syntax}
+%   This function is used to print the native name of the language in its own script. This might require the user to use Lua\LaTeX or \XeLaTeX, e.g., currently with the package we provide the native names of a few languages with both their |glottolog| and |wals| code. The concerned files are named |ln_lang_glot_native.tex| and |ln_lang_wals_native.tex| respectively. Unless a user defines their own languages with \cs{newlangnative}, this functionality is only available with the package option |native|. We can't provide all the native names, if you can't see your language in the output, we are open to \href{https://github.com/cicervlvs/langnames/pulls}{PRs} or \href{https://github.com/cicervlvs/langnames/issues}{issues}.
+% \begin{verbatim}
+% \documentclass{article}
+% \usepackage[glottolog,native]{langnames}
+% \usepackage{fontspec}
+% \newfontfamily\martxt[%
+%   Script=Devanagari,%
+%   Scale=0.9,%
+%   Renderer=Harfbuzz% Only required with LuaLaTeX
+% ]{Shobhika}
+% % ctan.org/pkg/shobhika
+% \newfontfamily\jpntxt[Scale=0.9]{HaranoAjiMincho-Regular.otf}
+% % ctan.org/pkg/haranoaji
+% 
+% \begin{document}
+% The endonym of \lname{mar} is {\martxt\langnative{mar}}.\par
+% The endonym of \lname{jpn} is {\jpntxt\langnative{jpn}}.\par
+% The endonym of \lname{deu} is {\jpntxt\langnative{deu}}.
+% \end{document}
+% \end{verbatim}
+% \end{function}
 % \subsubsection{Local changes}
 % The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glottolog| set, the following commands may be used. These commands do not take any arguments.
 % \begin{function}{\changetoglottolog,\changetowals,\changetonone}
@@ -197,6 +229,10 @@
   },%
   noval none            =  {%
     \def\langnames@cs@prefix{none}%
+  },%
+  noval native          =  {%
+    \input{ln_langs_wals_native.tex}%
+    \input{ln_langs_glot_native.tex}%
   }%
 }
 %    \end{macrocode}
@@ -252,6 +288,24 @@
 \newcommand*{\renewlang}[4]{%
   \expandafter\def\csname langnames@langs@#1@#2\endcsname{#3}%
   \expandafter\def\csname langnames@fams@#1@#2\endcsname{#4}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\newlangnative}
+%   The following code is used to develop the \cs{newlangnative} command.
+%    \begin{macrocode}
+\newcommand*{\newlangnative}[4]{%
+  \expandafter\def\csname langnames@langs@native@#1@#2\endcsname{#3}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\langnative}
+%   The following code is used to develop the \cs{langnative} command.
+%    \begin{macrocode}
+\newcommand*{\langnative}[1]{%
+  {%
+    \csname langnames@langs@native@\langnames@cs@prefix @#1\endcsname
+  }%
 }
 %    \end{macrocode}
 % \end{macro}
