@@ -94,11 +94,36 @@
 %   The tone system of \lfam{pkt} is fascinating.
 %   \xe
 % \end{function}
+% \begin{function}{\langnative}
+%   \begin{syntax}
+%     \cs{langnative}\marg{code}
+%   \end{syntax}
+%   This macro may be used to print the native name of the language in its own script. This might require the user to use, for example, Lua\LaTeX{} or \XeLaTeX. Currently, the package provides the native names of a few languages with both their |glottolog| and |wals| code. The concerned files are named |ln_lang_glot_native.tex| and |ln_lang_wals_native.tex| respectively. Unless a user defines their own languages with \cs{newlangnative}, this functionality is only available with the package option |native|. As package authors we are unable to provide the native versions of all names in the dataset; if you cannot see your language in the output, we are open to \href{https://github.com/cicervlvs/langnames/pulls}{pull requests} or \href{https://github.com/cicervlvs/langnames/issues}{issues}.
+% \begin{verbatim}
+% \documentclass{article}
+% \usepackage[glottolog,native]{langnames}
+% \usepackage{fontspec}
+% \newfontfamily\martxt[%
+%   Script=Devanagari,%
+%   Scale=0.9,%
+%   Renderer=Harfbuzz% Only required with LuaLaTeX
+% ]{Shobhika}
+% % ctan.org/pkg/shobhika
+% \newfontfamily\jpntxt[Scale=0.9]{HaranoAjiMincho-Regular.otf}
+% % ctan.org/pkg/haranoaji
+% 
+% \begin{document}
+% The endonym of \lname{mar} is {\martxt\langnative{mar}}.\par
+% The endonym of \lname{jpn} is {\jpntxt\langnative{jpn}}.\par
+% The endonym of \lname{deu} is {\jpntxt\langnative{deu}}.
+% \end{document}
+% \end{verbatim}
+% \end{function}
 % \begin{function}{\newlang}
 %   \begin{syntax}
 %     \cs{newlang}\marg{pseudo code}\marg{name}\marg{family}
 %   \end{syntax}
-%   Finally, users may add their own languages via the use of the |\newlang| and |\renewlang| commands. |\newlang| takes three arguments as shown above. Example (\nextx) shows its usage.
+%   Users may add their own languages via the use of the |\newlang| and |\renewlang| commands. |\newlang| takes three arguments as shown above. Example (\nextx) shows its usage.
 % 
 % \ex\par\noindent
 %
@@ -133,31 +158,7 @@
 %   \begin{syntax}
 %     \cs{langnative}\marg{dataset}\marg{code}\marg{name}
 %   \end{syntax}
-% \end{function}
-% \begin{function}{\langnative}
-%   \begin{syntax}
-%     \cs{langnative}\marg{code}
-%   \end{syntax}
-%   This function is used to print the native name of the language in its own script. This might require the user to use Lua\LaTeX or \XeLaTeX, e.g., currently with the package we provide the native names of a few languages with both their |glottolog| and |wals| code. The concerned files are named |ln_lang_glot_native.tex| and |ln_lang_wals_native.tex| respectively. Unless a user defines their own languages with \cs{newlangnative}, this functionality is only available with the package option |native|. We can't provide all the native names, if you can't see your language in the output, we are open to \href{https://github.com/cicervlvs/langnames/pulls}{PRs} or \href{https://github.com/cicervlvs/langnames/issues}{issues}.
-% \begin{verbatim}
-% \documentclass{article}
-% \usepackage[glottolog,native]{langnames}
-% \usepackage{fontspec}
-% \newfontfamily\martxt[%
-%   Script=Devanagari,%
-%   Scale=0.9,%
-%   Renderer=Harfbuzz% Only required with LuaLaTeX
-% ]{Shobhika}
-% % ctan.org/pkg/shobhika
-% \newfontfamily\jpntxt[Scale=0.9]{HaranoAjiMincho-Regular.otf}
-% % ctan.org/pkg/haranoaji
-% 
-% \begin{document}
-% The endonym of \lname{mar} is {\martxt\langnative{mar}}.\par
-% The endonym of \lname{jpn} is {\jpntxt\langnative{jpn}}.\par
-% The endonym of \lname{deu} is {\jpntxt\langnative{deu}}.
-% \end{document}
-% \end{verbatim}
+% This macro is the |native| counterpart to the |\newlang| macro, adding a new language to the |native| dataset. Here the user may define new languages to print in their endonymous form.
 % \end{function}
 % \subsubsection{Local changes}
 % The package offers another set of macros to change the language dataset locally, for example if the |wals| option was passed while loading the package and in one section one needs to use the language name from the |glottolog| set, the following commands may be used. These commands do not take any arguments.
