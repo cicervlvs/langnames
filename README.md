@@ -6,6 +6,8 @@ To install the package, run:
 
 More instructions in the package documentation, `langnames.pdf`.
 
-It is important thatthat the ln_* .tex files be installed in the same directory as langnames.sty, so as to avoid the risk of them not being recognized as runtime files.
+It is important that the ln_* .tex files be installed in the same directory as langnames.sty, so as to avoid the risk of them not being recognized as runtime files.
 
-_Copyright (c) 2022 by Alejandro García Matarredona, under version 1.3 of the LaTeX Project Public License._ 
+_Copyright (C) 2022 Alejandro García Matarredona, निरंजन_
+
+_Released under version 1.3 of the LaTeX Project Public License._ 
