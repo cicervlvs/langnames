@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2022 Alejandro García Matarredona, निरंजन
+% Copyright (C) 2022, 2023 Alejandro García Matarredona, निरंजन
 %
 % This file may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
@@ -15,7 +15,7 @@
 % \fi
 % \iffalse
 %<package>\ProvidesPackage{langnames}
-%<package> [2022/09/05 v2.0 langnames package for naming and classification of languages]
+%<package> [2023/01/04 v2.1 langnames package for naming and classification of languages]
 %
 %<*driver>
 \documentclass{l3doc}
@@ -57,9 +57,10 @@
 \end{document}
 %</driver>
 % \fi
-% \CheckSum{100}
+% \CheckSum{103}
 % \changes{v1.0}{2022/08/25}{Initial version}
 % \changes{v2.0}{2022/09/05}{Optimizing and debugging the code}
+% \changes{v2.1}{2023/01/04}{Removing all the dependencies}
 % \GetFileInfo{langnames.sty}
 % \DoNotIndex{\AddToHook,\def,\ekvdefinekeys,\ekvoProcessLocalOptions,\else,\expandafter,\fi,\ifdefined,\csname,\newcommand,\input,\usepackage,\PackageError,\space,\ssp,\MessageBreak,\langnames@cs@prefix,\endcsname}
 % \title{The \textsf{langnames} package\thanks{This document
@@ -81,7 +82,7 @@
 % The typing out of language names in academic papers, especially those in language typology or related fields where many names have to be typed many times, is often inconvenient and inconsistent. This package attempts to be a small help to writers, especially of large projects or of collaborative ones, to have a slightly easier time with names of languages. It does so by defining three main commands: |\lname|, |\liso|, and |\lfam|, which respectively print out the name, name and ISO 639-3 code, and name and family of the specified language. While the package comes with about 7500 pre-defined languages, with code, name, and family, the user may also define new ones through the |\newlang| and |\renewlang| commands. The basic use of all five of these commands is explained below.
 % \section{Usage}
 % \subsection{Installation}
-% Download the package from wherever it was found to a place where \LaTeX\ may see it, typically in \texttt{\$TEXMFHOME/tex/latex}. \pkg{langnames} should automatically load the \pkg{expkv-opt} and \pkg{expkv-def} packages.
+% Download the package from wherever it was found to a place where \LaTeX\ may see it, typically in \texttt{\$TEXMFHOME/tex/latex}.
 % \subsection{Package options}
 % When calling |\usepackage{langnames}|, the user must specify one of three options: |glottolog|, |wals|, or |none|.
 % The first option, \textsf{glottolog}, selects the naming conventions from the \href{https://glottolog.org}{Glottolog} database. The second option, \textsf{wals}, predictably selects the naming conventions of the \href{https://wals.info}{WALS} database. The names and the genetic classification differ in some languages, so the user may choose what convention to follow.
@@ -235,37 +236,30 @@
 % \item[Prefix:] As there exist three options, three prefixes need to be defined in order to allow for conditional selection. For this there exist three prefixes: |none|, |wals| and |glottolog|.
 % \end{description}
 % Thus, each language has two internal macros, one defining its name and the other one defining its family, both using the ISO 639-3 code as their key. For more information see |ln_langs_*| and |ln_fams_*| files in the package folder.
-% \subsection{Dependencies}
-% The \pkg{langnames} package needs to load the \pkg{expkv-def} and \pkg{expkv-opt} packages for their key-value pair setting functionality.
-%    \begin{macrocode}
-\usepackage{expkv-opt,expkv-def}
-%    \end{macrocode}
 % \subsection{Option setting}
 % Options are set for what dataset to use. |glottolog| uses Glottolog data; |wals| uses WALS data; |none| selects neither datasets and all languages are defined by the user. See |langnames/langnames.py| in the \href{https://github.com/cicervlvs/langnames}{Github repository} to see how I gathered and handled the data.
 %    \begin{macrocode}
-\ekvdefinekeys{langnames}{%
-  noval glottolog       =  {%
-    \def\langnames@cs@prefix{glottolog}%
-    \input{ln_langs_glot.tex}%
-    \input{ln_fams_glot.tex}%
-  },%
-  noval wals            =  {%
-    \def\langnames@cs@prefix{wals}%
-    \input{ln_langs_wals.tex}%
-    \input{ln_fams_wals.tex}%
-  },%
-  noval none            =  {%
-    \def\langnames@cs@prefix{none}%
-  },%
-  noval native          =  {%
-    \input{ln_langs_wals_native.tex}%
-    \input{ln_langs_glot_native.tex}%
-  }%
+\DeclareOption{glottolog}{%
+  \def\langnames@cs@prefix{glottolog}%
+  \input{ln_langs_glot.tex}%
+  \input{ln_fams_glot.tex}%
+}
+\DeclareOption{wals}{%
+  \def\langnames@cs@prefix{wals}%
+  \input{ln_langs_wals.tex}%
+  \input{ln_fams_wals.tex}%
+}
+\DeclareOption{none}{%
+  \def\langnames@cs@prefix{none}%
+}
+\DeclareOption{native}{%
+  \input{ln_langs_wals_native.tex}%
+  \input{ln_langs_glot_native.tex}%
 }
 %    \end{macrocode}
-% This line of code simply tells the package to set the options specified above.
+% This line of code simply tells the package to process the options specified above.
 %    \begin{macrocode}
-\ekvoProcessLocalOptions{langnames}
+\ProcessOptions\relax
 %    \end{macrocode}
 % \subsection{Macro definitions}
 % \begin{macro}{\lname}
@@ -373,7 +367,7 @@
 %
 % \section{License}
 %
-% Copyright (C) 2022 Alejandro García Matarredona, {\mrtxt निरंजन}
+% Copyright (C) 2022, 2023 Alejandro García Matarredona, {\mrtxt निरंजन}
 % 
 % This file may be distributed and/or modified under the conditions of the LaTeX\ Project Public License, either version 1.3 of this license or (at your option) any later version. The latest version of this license is in:\par
 %
