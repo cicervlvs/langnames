@@ -4,6 +4,9 @@ latex/testing/
 
 ## From github file
 
+## Python virtual environment files
+.venv
+
 ## Core latex/pdflatex auxiliary files:
 *.sty
 *.hd
