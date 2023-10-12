@@ -71,7 +71,7 @@ code_n = langs["iso639P3code"].value_counts()
 duplicate_codes = code_n[code_n > 1].reset_index()
 
 # get duplicate codes the names of which have parentheses (dialect suspects)
-langs_with_pars = langs[langs.name_glot.str.contains(" \(", na=False) == True]
+langs_with_pars = langs[langs.name_glot.str.contains(r" \(", na=False) == True]
 dupes_with_pars = langs_with_pars[langs_with_pars["iso639P3code"].isin(duplicate_codes)]
 
 # get names (without parentheses), as well as number of them
