@@ -27,8 +27,19 @@ jobs:
           files:
             latex/ln_*
 
-      
+      - name: Run versionbump.py
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          python versionbump.py
+          
       # Compile dtx file 
+      - name: Compile langnames.dtx
+        uses: dante-ev/latex-action@latest
+        with:  
+          root_file: latex/langnames.dtx
+          compiler: lualatex
+          args: -lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          extra_fonts: c_i/shobhika
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9.1.3
