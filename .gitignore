@@ -1,4 +1,5 @@
-*(^shobhika).zip
+*.zip
+!c_i/shobhika.zip
 data/README.txt
 latex/testing/
 
