@@ -1,12 +1,13 @@
 import re
 from datetime import datetime
 
+dtx_file = "latex/langnames.dtx"
+
 # Read the current version from the .dtx file
-with open("latex/langnames.dtx", "r") as f:
+with open(dtx_file, "r") as f:
     docfile = f.read()
 version_pattern = r"\[\d{4}/\d{2}/\d{2} (v((\d+\.{0,1}){1,2}\d*))"
 current_version = re.search(version_pattern, docfile).group(2).split(".")
-print(current_version)
 
 # Get current date
 today = datetime.today().strftime("%Y/%m/%d")
@@ -20,7 +21,6 @@ if len(current_version) < 3:
 new_version = current_version
 new_version[-1] = str(int(new_version[-1]) + 1)
 new_version = ".".join(new_version)
-print(new_version)
 
 # Update the .dtx file with the new version
 version_update = re.sub(
@@ -29,17 +29,16 @@ version_update = re.sub(
     docfile,
 )
 
-with open("latex/langnames.dtx", "w") as f:
+with open(dtx_file, "w") as f:
     f.write(version_update)
 
 # Add changes to file
 changes_pattern = r"\% \\changes\{v((\d+\.{0,1}){1,2}\d*)}"
 changes_message = f"% \\changes{{v{new_version}}}{{{today}}}{{Updated database}}"
-print(changes_message)
 changelog_lines = []
 
 # find lines where changelog is
-with open("latex/langnames.dtx", "r") as f:
+with open(dtx_file, "r") as f:
     lines = f.readlines()
     line_num = 0
     for line in lines:
@@ -50,5 +49,5 @@ with open("latex/langnames.dtx", "r") as f:
 
 lines.insert(changelog_lines[-1], changes_message + "\n")
 
-with open("latex/langnames.dtx", "w") as f:
+with open(dtx_file, "w") as f:
     f.writelines(lines)
