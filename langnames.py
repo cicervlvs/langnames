@@ -69,7 +69,6 @@ langs = langs[["iso639P3code", "name_glot", "name_wals", "family_glot", "family_
 # get duplicate iso codes
 code_n = langs["iso639P3code"].value_counts()
 duplicate_codes = code_n[code_n > 1].reset_index()
-print(duplicate_codes)
 
 # get duplicate codes the names of which have parentheses (dialect suspects)
 langs_with_pars = langs[langs.name_glot.str.contains(r" \(", na=False) == True]
@@ -80,8 +79,6 @@ dupes_with_pars = pd.merge(
     how="inner",
 )
 
-print(dupes_with_pars)
-
 # get names (without parentheses), as well as number of them
 sus_names = {}
 suspect_pattern = re.compile(r"(.+) \(")
@@ -90,7 +87,6 @@ for name, code in zip(dupes_with_pars["name_glot"], dupes_with_pars["iso639P3cod
     main_name = suspect_pattern.match(name).group(1)
     if main_name != "":
         sus_names.update({main_name: code})
-print(sus_names)
 
 # if all the occurrences of one name belong to the same code, I keep the shortest name
 langs = (
