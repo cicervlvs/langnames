@@ -45,7 +45,7 @@ jobs:
         with:  
           working_directory: latex
           root_file: langnames.dtx
-          args: '-lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode'
+          args: '-lualatex -latexoption=-interaction=nonstopmode'
           # extra_font_packages: shobhika
 
       - name: Commit changes
