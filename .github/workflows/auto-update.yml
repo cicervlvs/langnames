@@ -35,18 +35,22 @@ jobs:
           echo "files have changed"
           python versionbump.py
 
-      # - name: download shobhika font    
-      #   run: curl -L http://mirrors.ctan.org/fonts/shobhika.zip
+      - name: download shobhika font    
+        run: |
+          curl -L http://mirrors.ctan.org/fonts/shobhika.zip
+          unzip shobhika.zip 
+
 
       # Compile dtx file 
       - name: Compile langnames.dtx
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
-        uses: dante-ev/latex-action@latest
-        with:  
+        uses: xu-cheng/latex-action@v3
+        with:
           working_directory: latex
           root_file: langnames.dtx
-          args: '-lualatex -latexoption=-interaction=nonstopmode'
-          # extra_font_packages: shobhika
+          latexmk_use_lualatex: true
+          extra_fonts: shobhika/*.otf
+      
 
       - name: Commit changes
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
