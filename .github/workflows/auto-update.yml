@@ -35,6 +35,9 @@ jobs:
           echo "files have changed"
           python versionbump.py
 
+      # - name: download shobhika font    
+      #   run: curl -L http://mirrors.ctan.org/fonts/shobhika.zip
+
       # Compile dtx file 
       - name: Compile langnames.dtx
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
@@ -43,7 +46,7 @@ jobs:
           working_directory: latex
           root_file: langnames.dtx
           args: '-lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode'
-          extra_font_packages: shobhika
+          # extra_font_packages: shobhika
 
       - name: Commit changes
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
