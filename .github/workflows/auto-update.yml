@@ -41,7 +41,7 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:  
           root_file: latex/langnames.dtx
-          args: '-lualatex\ -latexoption=-file-line-error\ -latexoption=-interaction=nonstopmode'
+          args: '-lualatex -latexoption=-file-line-error -latexoption=-interaction=nonstopmode'
           extra_font_packages: shobhika
 
       - name: Commit changes
@@ -61,4 +61,3 @@ jobs:
 # - notify me
 # else:
 # - do nothing
-#
