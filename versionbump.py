@@ -21,6 +21,7 @@ if len(current_version) < 3:
 new_version = current_version
 new_version[-1] = str(int(new_version[-1]) + 1)
 new_version = ".".join(new_version)
+print(new_version)
 
 # Update the .dtx file with the new version
 version_update = re.sub(
