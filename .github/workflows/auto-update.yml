@@ -67,7 +67,7 @@ jobs:
           action: validate
           file_path: latex/langnames.zip  
           fields: |
-            update: true
+            update: "true"
             pkg: langnames
             version: ${{ steps.versionbump.outputs.VERSION }}
             author: Alejandro García Matarredona, �नरंजन
