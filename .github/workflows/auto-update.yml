@@ -38,7 +38,7 @@ jobs:
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
         uses: dante-ev/latex-action@latest
         with:  
-          working_directory: latex
+          working_directory: langnames
           root_file: langnames.dtx
           compiler: lualatex
 
@@ -63,11 +63,11 @@ jobs:
         uses: paolobrasolin/ctan-submit-action@v1
         with:
           action: validate
-          file_path: latex/langnames.zip  
+          file_path: langnames.zip  
           fields: |
             update: "true"
             pkg: langnames
             version: ${{ steps.versionbump.outputs.VERSION }}
-            author: Alejandro García Matarredona, �नरंजन
+            author: Alejandro García Matarredona, निरंजन
             email: alejandrogarciaag41@gmail.com, hi.niranjan@pm.me 
             uploader: Alejandro García
