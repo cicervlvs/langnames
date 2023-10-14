@@ -45,8 +45,7 @@ jobs:
         with:  
           working_directory: latex
           root_file: langnames.dtx
-          args: '-lualatex -latexoption=-interaction=nonstopmode'
-          # extra_font_packages: shobhika
+          compiler: lualatex
       
 
       - name: Commit changes
@@ -55,14 +54,3 @@ jobs:
         with:
           default_author: github_actions
           message: "Automatically updated the database"
-            
-# run langnames.py which generates the key-value pair files
-# if there is a difference between the new and old files:
-# replace old file with new file
-# - bump up the version of the package
-#  - change the version in the documentation file
-#  - run the documentation file
-# - create a new release?
-# - notify me
-# else:
-# - do nothing

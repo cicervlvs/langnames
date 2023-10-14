@@ -49,8 +49,7 @@ jobs:
           working_directory: latex
           root_file: langnames.dtx
           latexmk_use_lualatex: true
-          extra_fonts: shobhika/*.otf
-      
+          args: -makeindex="makeindex -s gind.ist -o langnames.ind"
 
       - name: Commit changes
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
