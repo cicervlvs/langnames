@@ -55,7 +55,7 @@ jobs:
         with:
           type: zip
           filename: langnames.zip
-          file_path: langnames/*
+          file_path: langnames/langnames/*
           exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
 
       - name: CTAN submit
