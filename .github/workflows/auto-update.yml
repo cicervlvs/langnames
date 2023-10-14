@@ -32,9 +32,9 @@ jobs:
         id: versionbump
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
         run: |
-          echo "VERSION=$(python versionbump.py)" >> $GITHUB_OUTPUT
+          echo "VERSION=$(python c_i/versionbump.py)" >> $GITHUB_OUTPUT
 
-      - name: Cache Docker images.
+      - name: Cache Docker images
         uses: ScribeMD/docker-cache@0.3.6
         with:
           key: latex-action-2021-a 
