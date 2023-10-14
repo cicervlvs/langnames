@@ -34,6 +34,11 @@ jobs:
         run: |
           echo "VERSION=$(python versionbump.py)" >> $GITHUB_OUTPUT
 
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.3.6
+        with:
+          key: latex-action-2021-a 
+
       - name: Compile langnames.dtx
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'
         uses: dante-ev/latex-action@latest
@@ -55,7 +60,7 @@ jobs:
         with:
           type: zip
           filename: langnames.zip
-          file_path: langnames/langnames/*
+          path: langnames/*
           exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
 
       - name: CTAN submit
