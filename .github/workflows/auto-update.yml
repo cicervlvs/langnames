@@ -1,4 +1,4 @@
-name: Update database and version with different latex
+name: Update database and version
 on:
   # schedule:
   #   - cron: '0 0 * * 0'
@@ -26,7 +26,7 @@ jobs:
         with:
           files_yaml: |
             declarations:
-              latex/ln_*
+              langnames/ln_*
  
       - name: Run versionbump.py
         id: versionbump
@@ -55,10 +55,8 @@ jobs:
         with:
           type: zip
           filename: langnames.zip
-          directory: latex/
+          file_path: langnames/*
           exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
-
-
 
       - name: CTAN submit
         # if: steps.changed-files-yaml.declarations.test_any_changed == 'true'

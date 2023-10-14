@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-dtx_file = "latex/langnames.dtx"
+dtx_file = "langnames/langnames.dtx"
 
 # Read the current version from the .dtx file
 with open(dtx_file, "r") as f:
