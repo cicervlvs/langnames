@@ -95,6 +95,8 @@ langs = (
     .drop_duplicates(subset=["name_wals", "iso639P3code"], keep="first")
     .sort_values("name_glot")
     .reset_index(drop=True)
+    .drop_duplicates(subset=["name_glot", "iso639P3code"], keep="first")
+    .reset_index(drop=True)
 )
 
 # remove entries without iso codes
@@ -125,6 +127,8 @@ for glotfam, walsfam in zip(langs.family_glot, langs.family_wals):
     glotfams_fixed.append(glotfam)
 
 langs.family_glot = glotfams_fixed
+
+langs = langs.sort_values("iso639P3code")
 
 # make the keys for the latex package
 with open("langnames/ln_langs_glot.tex", "w") as lang_keys_glot:
