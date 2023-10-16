@@ -1,16 +1,33 @@
 import re
+import sys
 from datetime import datetime
+from version_bump_chooser import versionBumpType
 
-dtx_file = "langnames/langnames.dtx"
+
+def num_to_change():
+    ver_change = versionBumpType()
+
+    if ver_change == "minor":
+        return 1
+    elif ver_change == "major":
+        return 0
+    else:
+        return "no changes"
+
 
 # Read the current version from the .dtx file
+dtx_file = "langnames/langnames.dtx"
+
 with open(dtx_file, "r") as f:
     docfile = f.read()
 version_pattern = r"\[\d{4}/\d{2}/\d{2} (v((\d+\.{0,1}){1,2}\d*))"
 current_version = re.search(version_pattern, docfile).group(2).split(".")
 
+print(current_version)
 # Get current date
 today = datetime.today().strftime("%Y/%m/%d")
+
+print(versionBumpType())
 
 # Increment the version number in the third level (patch), accounting for difference in typing outs
 if len(current_version) < 3:
@@ -19,7 +36,9 @@ if len(current_version) < 3:
         current_version.append("0")
 
 new_version = current_version
-new_version[-1] = str(int(new_version[-1]) + 1)
+
+
+new_version[num_to_change()] = str(int(new_version[-1]) + 1)
 new_version = ".".join(new_version)
 print(new_version)
 
