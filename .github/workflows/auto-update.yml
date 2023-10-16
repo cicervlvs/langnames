@@ -34,7 +34,15 @@ jobs:
       - name: Compile langnames.dtx
         if: steps.getchanges.outputs.CHANGES != 'no change'
         uses: dante-ev/latex-action@latest
-        with:  
+        with:
+          working_directory: langnames
+          root_file: langnames.dtx
+          compiler: lualatex
+
+      - name: Compile langnames.dtx again
+        if: steps.getchanges.outputs.CHANGES != 'no change'
+        uses: dante-ev/latex-action@latest
+        with:
           working_directory: langnames
           root_file: langnames.dtx
           compiler: lualatex
