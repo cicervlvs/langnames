@@ -8,6 +8,8 @@ latex/testing/
 
 ## Python virtual environment files
 .venv
+## Python cache
+*__pycache__*
 
 ## Core latex/pdflatex auxiliary files:
 *.sty
