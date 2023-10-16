@@ -53,7 +53,7 @@ def versionBumpType():
     else:
         ver_change = "major"
 
-    print(ver_change)
+    return ver_change
 
 
 if __name__ == "__main__":
