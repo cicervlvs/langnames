@@ -52,9 +52,6 @@ def versionBumpType():
         return "minor"
     else:
         return "major"
-    ## Convert removals and additions into sets, one element per line
-    ## If removals and additions are empty -> Undetermined
-    ## Substract removals from additions, if resulting Set > 0. Major bump else minor bump
 
 
 if __name__ == "__main__":
