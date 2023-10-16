@@ -47,11 +47,14 @@ def versionBumpType():
     actual_removals = set([lang for lang in removals if lang not in additions])
 
     if len(changes) == 0:
-        return "no change"
+        ver_change = "no change"
     elif len(actual_removals) == 0:
-        return "minor"
+        ver_change = "minor"
     else:
-        return "major"
+        ver_change = "major"
+
+    print(ver_change)
+    return ver_change
 
 
 if __name__ == "__main__":
