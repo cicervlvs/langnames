@@ -25,7 +25,8 @@ jobs:
       - name: Run versionbump.py
         id: versionbump
         run: |
-          echo "CHANGES, VERSION=$(python c_i/versionbump.py)" >> $GITHUB_OUTPUT
+          echo "CHANGES=$(python c_i/versionbump.py | head -n 1)" >> $GITHUB_OUTPUT
+          echo "CHANGES=$(python c_i/versionbump.py | head -n 2)" >> $GITHUB_OUTPUT
 
       - name: Compile langnames.dtx
         if: steps.getchanges.outputs.CHANGES != 'no change'
