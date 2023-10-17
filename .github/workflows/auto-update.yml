@@ -21,12 +21,9 @@ jobs:
           pip install pandas
           python langnames.py
 
- 
       - name: Run versionbump.py
         id: versionbump
-        run: |
-          echo "CHANGES=$(python c_i/versionbump.py | head -n 1)" >> $GITHUB_OUTPUT
-          echo "CHANGES=$(python c_i/versionbump.py | head -n 2)" >> $GITHUB_OUTPUT
+        run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$1} FNR==2 {print "VERSION="$1}' >> $GITHUB_OUTPUT
 
       - name: Compile langnames.dtx
         if: steps.getchanges.outputs.CHANGES != 'no change'
