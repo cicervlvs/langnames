@@ -25,8 +25,14 @@ jobs:
         id: versionbump
         run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$1} FNR==2 {print "VERSION="$1}' >> $GITHUB_OUTPUT
 
+  update-package:
+    if: ${{ steps.getchanges.outputs.CHANGES != 'no change' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
       - name: Compile langnames.dtx
-        if: steps.getchanges.outputs.CHANGES != 'no change'
         uses: dante-ev/latex-action@latest
         with:
           working_directory: langnames
@@ -35,7 +41,6 @@ jobs:
           args: ""
 
       - name: Compile langnames.dtx again
-        if: steps.getchanges.outputs.CHANGES != 'no change'
         uses: dante-ev/latex-action@latest
         with:
           working_directory: langnames
@@ -43,31 +48,9 @@ jobs:
           compiler: lualatex
           args: ""
 
-      - name: Commit changes
-        if: steps.getchanges.outputs.CHANGES != 'no change'
-        uses: EndBug/add-and-commit@v9.1.3
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5.0.2
         with:
-          default_author: github_actions
-          message: "Automatically updated the database"
-      
-      - name: Zip Release
-        if: steps.getchanges.outputs.CHANGES != 'no change'
-        uses: TheDoctor0/zip-release@0.7.1
-        with:
-          type: zip
-          filename: langnames.zip
-          path: langnames/*
-          exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
-
-      - name: CTAN submit
-        if: steps.getchanges.outputs.CHANGES != 'no change'
-        uses: paolobrasolin/ctan-submit-action@v1
-        with:
-          action: validate
-          file_path: langnames.zip  
-          fields: |
-            update: "true"
-            pkg: langnames
-            version: ${{ steps.versionbump.outputs.VERSION }}
-            email: alejandrogarciaag41@gmail.com
-            uploader: Alejandro García
+          title: ${{ steps.getchanges.outputs.CHANGES }} update in the package
+          branch: auto-update
+          reviewers: cicervlvs
