@@ -23,14 +23,23 @@ jobs:
 
       - name: Run versionbump.py
         id: versionbump
-        run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$1} FNR==2 {print "VERSION="$1}' >> $GITHUB_OUTPUT
+        run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$0} FNR==2 {print "VERSION="$0}' >> "$GITHUB_OUTPUT"
 
-  update-package:
-    if: ${{ steps.getchanges.outputs.CHANGES != 'no change' }}
+      - name: Debug GITHUB_OUTPUT
+        run: cat "$GITHUB_OUTPUT"
+
+  update_package:
+    needs: update_database
+    if: ${{ needs.update_database.outputs.versionbump.outputs.CHANGES != 'no change' }}
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+
+      - name: echo changes and version
+        run: |
+          echo "changes: ${{ needs.update_database.outputs.versionbump.outputs.CHANGES }}"
+          echo  "version: ${{ needs.update_database.outputs.versionbump.outputs.VERSION }}"
 
       - name: Compile langnames.dtx
         uses: dante-ev/latex-action@latest
@@ -51,6 +60,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-          title: ${{ steps.getchanges.outputs.CHANGES }} update in the package
+          title: ${{ needs.update_database.outputs.versionbump.outputs.CHANGES }} update in the package
           branch: auto-update
           reviewers: cicervlvs
