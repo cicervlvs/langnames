@@ -21,15 +21,10 @@ jobs:
           pip install pandas
           python langnames.py
 
-      - name: Changed Files
-        id: getchanges
-        run: echo "CHANGE=$(python c_i/version_bump_chooser.py)" >> $GITHUB_OUTPUT
  
       - name: Run versionbump.py
         id: versionbump
-        if: steps.getchanges.outputs.CHANGES != 'no change'
-        run: |
-          echo "VERSION=$(python c_i/versionbump.py)" >> $GITHUB_OUTPUT
+        run: echo "CHANGE=$(python c_i/versionbump.py)" >> $GITHUB_OUTPUT
 
       - name: Compile langnames.dtx
         if: steps.getchanges.outputs.CHANGES != 'no change'
@@ -73,5 +68,5 @@ jobs:
             update: "true"
             pkg: langnames
             version: ${{ steps.versionbump.outputs.VERSION }}
-            email: alejandrogarciaag41@gmail.com, hi.niranjan@pm.me 
+            email: alejandrogarciaag41@gmail.com
             uploader: Alejandro García
