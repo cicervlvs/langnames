@@ -32,6 +32,7 @@ jobs:
           working_directory: langnames
           root_file: langnames.dtx
           compiler: lualatex
+          args: ""
 
       - name: Compile langnames.dtx again
         if: steps.getchanges.outputs.CHANGES != 'no change'
@@ -40,6 +41,7 @@ jobs:
           working_directory: langnames
           root_file: langnames.dtx
           compiler: lualatex
+          args: ""
 
       - name: Commit changes
         if: steps.getchanges.outputs.CHANGES != 'no change'
