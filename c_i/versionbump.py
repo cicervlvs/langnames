@@ -32,6 +32,7 @@ elif versionBumpType == "minor":
 else:
     new_version = current_version
 
+print(versionBumpType)
 print(new_version)
 
 # Update the .dtx file with the new version
@@ -47,7 +48,9 @@ if new_version != current_version:
 
     # find lines where changelog is
     changes_pattern = r"\% \\changes\{v((\d+\.{0,1}){1,2}\d*)}"
-    changes_message = f"% \\changes{{v{new_version}}}{{{today}}}{{Updated database}}"
+    changes_message = (
+        f"% \\changes{{v{new_version}}}{{{today}}}{{Updated the database}}"
+    )
     changelog_lines = []
 
     # Add changes to file
