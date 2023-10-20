@@ -1,9 +1,14 @@
 import re
+import argparse
 from datetime import datetime
 from version_bump_chooser import versionBumpType
 
 # Read the current version from the .dtx file
 dtx_file = "langnames/langnames.dtx"
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--current_version", action="store_true")
+args = parser.parse_args()
 
 with open(dtx_file, "r") as f:
     docfile = f.read()
@@ -11,6 +16,10 @@ version_pattern = r"\[\d{4}/\d{2}/\d{2} (v((\d+\.{0,1}){1,2}\d*))"
 
 current_version = re.search(version_pattern, docfile).group(2)
 current_version_nums = current_version.split(".")
+
+if args.current_version:
+    print(current_version)
+    exit(0)
 
 # Get current date
 today = datetime.today().strftime("%Y/%m/%d")

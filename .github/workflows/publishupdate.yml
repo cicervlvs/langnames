@@ -1,0 +1,47 @@
+# if changes are detected:
+# 1. Commit changes (to a new branch?)
+# 2 Make a pull request
+# If pull request is accepted:
+# package release
+# make new release with tag
+# publish on CTAN
+name: publish update
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  publish-update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Get version
+        run: echo "VERSION="$(python c_i/versionbump.py --current_version) >> "$GITHUB_ENV"
+
+      - name: Zip Release
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          type: zip
+          filename: langnames.zip
+          path: langnames/*
+          exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
+
+      - name: GH Release
+        uses: softprops/action-gh-release@v0.1.15
+
+
+      - name: CTAN submit
+        uses: paolobrasolin/ctan-submit-action@v1
+        with:
+          action: validate
+          file_path: langnames.zip
+          fields: |
+            update: "true"
+            pkg: langnames
+            version: ${{ $VERSION }}
+            email: alejandrogarciaag41@gmail.com
+            uploader: Alejandro García
