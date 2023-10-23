@@ -1,5 +1,4 @@
 *.zip
-!c_i/shobhika.zip
 !data/langs_glot.zip
 data/README.txt
 latex/testing/
