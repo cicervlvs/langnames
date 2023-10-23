@@ -47,6 +47,8 @@ def versionBumpType():
     additions = set(p3.communicate()[0].decode("utf-8").split("\n"))
 
     actual_removals = set([lang for lang in removals if lang not in additions])
+    actual_additions = set([lang for lang in additions if lang not in removals])
+    actual_changes = set([lang for lang in additions if lang in removals])
 
     if not changes:
         ver_change = "no change"
@@ -55,7 +57,7 @@ def versionBumpType():
     else:
         ver_change = "major"
 
-    return ver_change
+    return ver_change, actual_changes, actual_additions, actual_removals
 
 
 # Read the current version from the .dtx file
@@ -63,6 +65,7 @@ dtx_file = "langnames/langnames.dtx"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--current_version", action="store_true")
+parser.add_argument("--full_info", action="store_true")
 args = parser.parse_args()
 
 with open(dtx_file, "r") as f:
@@ -85,7 +88,7 @@ if len(current_version_nums) < 3:
     for i in range(numbers_to_add):
         current_version_nums.append("0")
 
-versionBumpType = versionBumpType()
+versionBumpType, actual_changes, actual_additions, actual_removals = versionBumpType()
 
 if versionBumpType == "major":
     first_number = int(current_version_nums[0]) + 1
@@ -96,8 +99,14 @@ elif versionBumpType == "minor":
 else:
     new_version = current_version
 
+
 print(versionBumpType)
 print(new_version)
+
+if args.full_info:
+    print(len(actual_changes))
+    print(len(actual_additions))
+    print(len(actual_removals))
 
 # Update the .dtx file with the new version
 if new_version != current_version:

@@ -53,7 +53,7 @@ jobs:
         uses: softprops/action-gh-release@v0.1.15
 
 
-      - name: CTAN submit
+      - name: CTAN validate
         uses: paolobrasolin/ctan-submit-action@v1
         with:
           action: validate
