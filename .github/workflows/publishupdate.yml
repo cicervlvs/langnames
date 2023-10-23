@@ -15,12 +15,15 @@ jobs:
   publish-update:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.getversion.outputs.VERSION }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
       - name: Get version
-        run: echo "VERSION="$(python c_i/versionbump.py --current_version) >> "$GITHUB_ENV"
+        id: getversion
+        run: echo "VERSION="$(python c_i/versionbump.py --current_version) >> "$GITHUB_OUTPUT"
 
       - name: Compile langnames.dtx
         uses: dante-ev/latex-action@latest
@@ -58,6 +61,6 @@ jobs:
           fields: |
             update: "true"
             pkg: langnames
-            version: ${{ $VERSION }}
+            version: ${{ steps.getversion.outputs.version }}
             email: alejandrogarciaag41@gmail.com
             uploader: Alejandro García
