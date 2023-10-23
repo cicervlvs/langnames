@@ -30,7 +30,7 @@ jobs:
 
   update_package:
     needs: update_database
-    if: needs.update_package.outputs.changes != 'no change'
+    if: needs.update_database.outputs.changes != 'no change'
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
@@ -55,6 +55,6 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:
-          # title: ${{ CHANGES }} update in the package
+          title: ${{ needs.update_database.outputs.changes }} update in the package
           branch: auto-update
           reviewers: cicervlvs
