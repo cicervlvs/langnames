@@ -28,6 +28,9 @@ jobs:
         id: versionbump
         run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$0} FNR==2 {print "VERSION="$0}' >> "$GITHUB_OUTPUT"
 
+      - name: echo changes
+        run: echo ${{ steps.versionbump.outputs.changes }}
+
   update_package:
     needs: update_database
     if: needs.update_database.outputs.changes != 'no change'
@@ -35,6 +38,10 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+
+      - name: Commit changes
+        run: |
+          git diff
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
