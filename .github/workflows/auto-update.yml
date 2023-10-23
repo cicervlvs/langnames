@@ -36,22 +36,6 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
 
-      - name: Compile langnames.dtx
-        uses: dante-ev/latex-action@latest
-        with:
-          working_directory: langnames
-          root_file: langnames.dtx
-          compiler: lualatex
-          args: ""
-
-      - name: Compile langnames.dtx again
-        uses: dante-ev/latex-action@latest
-        with:
-          working_directory: langnames
-          root_file: langnames.dtx
-          compiler: lualatex
-          args: ""
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2
         with:

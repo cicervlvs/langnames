@@ -22,6 +22,22 @@ jobs:
       - name: Get version
         run: echo "VERSION="$(python c_i/versionbump.py --current_version) >> "$GITHUB_ENV"
 
+      - name: Compile langnames.dtx
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: langnames
+          root_file: langnames.dtx
+          compiler: lualatex
+          args: ""
+
+      - name: Compile langnames.dtx again
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: langnames
+          root_file: langnames.dtx
+          compiler: lualatex
+          args: ""
+
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.7.1
         with:
