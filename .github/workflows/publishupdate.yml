@@ -1,6 +1,3 @@
-# if changes are detected:
-# 1. Commit changes (to a new branch?)
-# 2 Make a pull request
 # If pull request is accepted:
 # package release
 # make new release with tag
@@ -49,9 +46,10 @@ jobs:
           path: langnames/*
           exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
 
-      - name: GH Release
-        uses: softprops/action-gh-release@v0.1.15
-
+      - name: check zip file
+        run: less langnames.zip
+      # - name: GH Release
+      #   uses: softprops/action-gh-release@v0.1.15
 
       - name: CTAN validate
         uses: paolobrasolin/ctan-submit-action@v1
