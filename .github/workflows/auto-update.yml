@@ -36,7 +36,7 @@ jobs:
         if: needs.update_database.outputs.changes != 'no change'
         with:
           title: Update langnames to v${{ steps.versionbump.outputs.version }} (${{ steps.versionbump.outputs.changes }} update). ${{ steps.versionbump.outputs.changed_langs }} changed values, ${{ steps.versionbump.outputs.additions }} additions, ${{ steps.versionbump.outputs.removals }} removals.
-          commit-message: Changed latex data files as well as dtx file.
+          commit-message: Updated latex data files and reflected it in the versioning information on the .dtx file.
           branch: auto-update
           delete-branch: true
           reviewers: cicervlvs
