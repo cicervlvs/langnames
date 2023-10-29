@@ -59,6 +59,6 @@ jobs:
         with:
           files: langnames.zip
           draft: true
-          body: This release includes automatic updates to the database used for the key-value pairings in the package.
+          body: This release includes automatic updates to the database used for the key-value pairings in the package. A minor version bump means that languages have been added or modified, and a major version bump means that at least one language has been removed from one of the key-value pairing .tex files.
           name: langnames v${{ steps.getversion.outputs.version }}
           tag_name: v${{ steps.getversion.outputs.version }}
