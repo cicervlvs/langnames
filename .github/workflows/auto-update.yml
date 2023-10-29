@@ -29,7 +29,7 @@ jobs:
 
       - name: Run versionbump.py
         id: versionbump
-        run: python c_i/versionbump.py --full_info | awk 'FNR==1 {print "CHANGES="$0} FNR==2 {print "VERSION="$0} FNR==3 {print "CHANGED_LANGS="$0} FNR==4 {print "ADDITIONS="$0} FNR==5 {print "REMOVALS="$0}' >> "$GITHUB_OUTPUT"
+        run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$0} FNR==2 {print "VERSION="$0} FNR==3 {print "CHANGED_LANGS="$0} FNR==4 {print "ADDITIONS="$0} FNR==5 {print "REMOVALS="$0}' >> "$GITHUB_OUTPUT"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5.0.2

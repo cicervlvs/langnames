@@ -65,7 +65,6 @@ dtx_file = "langnames/langnames.dtx"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--current_version", action="store_true")
-parser.add_argument("--full_info", action="store_true")
 args = parser.parse_args()
 
 with open(dtx_file, "r") as f:
@@ -102,11 +101,9 @@ else:
 
 print(versionBumpType)
 print(new_version)
-
-if args.full_info:
-    print(len(actual_changes))
-    print(len(actual_additions))
-    print(len(actual_removals))
+print(len(actual_changes))
+print(len(actual_additions))
+print(len(actual_removals))
 
 # Update the .dtx file with the new version
 if new_version != current_version:
