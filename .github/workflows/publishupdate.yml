@@ -45,7 +45,7 @@ jobs:
       - name: CTAN validate
         uses: paolobrasolin/ctan-submit-action@v1
         with:
-          action: validate
+          action: upload
           file_path: langnames.zip
           fields: |
             update: "true"
@@ -58,7 +58,7 @@ jobs:
         uses: softprops/action-gh-release@v0.1.15
         with:
           files: langnames.zip
-          draft: true
+          draft: false
           body: This release includes automatic updates to the database used for the key-value pairings in the package. A minor version bump means that languages have been added or modified, and a major version bump means that at least one language has been removed from one of the key-value pairing .tex files.
           name: langnames v${{ steps.getversion.outputs.version }}
           tag_name: v${{ steps.getversion.outputs.version }}
