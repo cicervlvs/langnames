@@ -1,8 +1,14 @@
 *.zip
+!data/langs_glot.zip
 data/README.txt
 latex/testing/
 
 ## From github file
+
+## Python virtual environment files
+.venv
+## Python cache
+*__pycache__*
 
 ## Core latex/pdflatex auxiliary files:
 *.sty

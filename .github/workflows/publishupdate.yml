@@ -1,0 +1,64 @@
+name: Publish update
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  publish-update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.getversion.outputs.VERSION }}
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Get version
+        id: getversion
+        run: echo "VERSION="$(python c_i/versionbump.py --current_version) >> "$GITHUB_OUTPUT"
+
+      - name: Compile langnames.dtx
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: langnames
+          root_file: langnames.dtx
+          compiler: lualatex
+          args: ""
+
+      - name: Compile langnames.dtx again
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: langnames
+          root_file: langnames.dtx
+          compiler: lualatex
+          args: ""
+
+      - name: Zip Release
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          type: zip
+          filename: langnames.zip
+          path: langnames/*
+          exclusions: '*-tags.tex *.aux *.glo *.hd *.idx *.log *.out *.synctex* *.toc'
+
+      - name: CTAN validate
+        uses: paolobrasolin/ctan-submit-action@v1
+        with:
+          action: validate
+          file_path: langnames.zip
+          fields: |
+            update: "true"
+            pkg: langnames
+            version: ${{ steps.getversion.outputs.version }}
+            email: alejandrogarciaag41@gmail.com
+            uploader: Alejandro García
+
+      - name: GH Release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          files: langnames.zip
+          draft: true
+          body: This release includes automatic updates to the database used for the key-value pairings in the package. A minor version bump means that languages have been added or modified, and a major version bump means that at least one language has been removed from one of the key-value pairing .tex files.
+          name: langnames v${{ steps.getversion.outputs.version }}
+          tag_name: v${{ steps.getversion.outputs.version }}

@@ -1,0 +1,41 @@
+name: Update database and version
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs: 
+  update_database:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.versionbump.outputs.VERSION }}
+      changes: ${{ steps.versionbump.outputs.CHANGES }}
+      changed_langs: ${{ steps.versionbump.outputs.CHANGED_LANGS }}
+      additions: ${{ steps.versionbump.outputs.ADDITIONS }}
+      removals: ${{ steps.versionbump.outputs.REMOVALS }}
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4.7.0
+        with: 
+          python-version: '3.x'
+          
+      - name: Run langnames.py
+        run: |
+          pip install pandas
+          python langnames.py
+
+      - name: Run versionbump.py
+        id: versionbump
+        run: python c_i/versionbump.py | awk 'FNR==1 {print "CHANGES="$0} FNR==2 {print "VERSION="$0} FNR==3 {print "CHANGED_LANGS="$0} FNR==4 {print "ADDITIONS="$0} FNR==5 {print "REMOVALS="$0}' >> "$GITHUB_OUTPUT"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5.0.2
+        if: needs.update_database.outputs.changes != 'no change'
+        with:
+          title: Update langnames to v${{ steps.versionbump.outputs.version }} (${{ steps.versionbump.outputs.changes }} update). ${{ steps.versionbump.outputs.changed_langs }} changed values, ${{ steps.versionbump.outputs.additions }} additions, ${{ steps.versionbump.outputs.removals }} removals.
+          commit-message: Updated latex data files and reflected it in the versioning information on the .dtx file.
+          branch: auto-update
+          delete-branch: true
+          reviewers: cicervlvs
