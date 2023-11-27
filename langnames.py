@@ -57,7 +57,6 @@ def langnames():
     ).reset_index(drop=True)
 
     # Join with wals for names and codes
-
     langs = pd.merge(
         langs_wals,
         langs_glottolog,
@@ -134,6 +133,10 @@ def langnames():
         glotfams_fixed.append(glotfam)
 
     langs.family_glot = glotfams_fixed
+
+    # Drop languages in WALS which do not have a family because they are considered dialects by Glottolog (see line 29)
+    # TODO: improve this by giving wals languages a chance to get their own families
+    langs = langs.dropna(subset="family_wals").reset_index(drop=True)
 
     langs = langs.sort_values("iso639P3code")
 
