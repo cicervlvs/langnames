@@ -38,4 +38,4 @@ jobs:
           commit-message: Updated latex data files and reflected it in the versioning information on the .dtx file.
           branch: auto-update
           delete-branch: true
-          reviewers: cicervlvs
+          reviewers: cicervlvs, niruvt
