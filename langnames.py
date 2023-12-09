@@ -125,18 +125,19 @@ def langnames():
     langs.name_glot = glotnames_fixed
     langs.name_wals = walsnnames_fixed
 
-    # Fill nan in glottolog families with wals families
+    # Fill nan in glottolog families with wals families and viceversa
     glotfams_fixed = []
+    walsfams_fixed = []
     for glotfam, walsfam in zip(langs.family_glot, langs.family_wals):
         if pd.isna(glotfam):
             glotfam = walsfam
+        elif pd.isna(walsfam):
+            walsfam = glotfam
         glotfams_fixed.append(glotfam)
+        walsfams_fixed.append(walsfam)
 
     langs.family_glot = glotfams_fixed
-
-    # Drop languages in WALS which do not have a family because they are considered dialects by Glottolog (see line 29)
-    # TODO: improve this by giving wals languages a chance to get their own families
-    langs = langs.dropna(subset="family_wals").reset_index(drop=True)
+    langs.family_wals = walsfams_fixed
 
     langs = langs.sort_values("iso639P3code")
 
