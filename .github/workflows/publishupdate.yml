@@ -6,7 +6,9 @@ on:
 
 jobs:
   publish-update:
-    if: github.event.pull_request.merged == true
+    if: >-
+      github.event.pull_request.user.login == 'github-actions' &&
+      github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.getversion.outputs.VERSION }}
