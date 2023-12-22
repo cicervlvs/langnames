@@ -1,0 +1,1 @@
+$makeindex = 'makeindex -s gglo.ist -o langnames.gls langnames.glo';
