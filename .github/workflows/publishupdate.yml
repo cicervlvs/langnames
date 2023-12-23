@@ -25,16 +25,7 @@ jobs:
         with:
           working_directory: langnames
           root_file: langnames.dtx
-          compiler: lualatex
-          args: ""
-
-      - name: Compile langnames.dtx again
-        uses: dante-ev/latex-action@latest
-        with:
-          working_directory: langnames
-          root_file: langnames.dtx
-          compiler: lualatex
-          args: ""
+          args: "-lualatex -r ../c_i/latexmkrc"
 
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.7.1
